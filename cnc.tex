@@ -184,26 +184,41 @@ Meta-learning constituye una solución factible para los problemas donde una def
 %-----------------------------------------------------------------------------------
 	\subsection{AutoML}\label{sub:automl}
 %-----------------------------------------------------------------------------------
-		Para producir listas enumeradas, utilice el siguiente estilo:
-		\begin{enumerate}
-			\item Primer Elemento
-			\item Segundo Elemento
-			%
-			\begin {enumerate}
-				\item {Segundo Elemento - Subítem Uno}
-				\item {Segundo Elemento - Subítem Dos}
-			\end {enumerate}
-			%
-		\end{enumerate}
 
-%-----------------------------------------------------------------------------------
-		Para producir descripciones, use el siguiente estilo:
+\textit{Automated Machine Learning} (AutoML) o Aprendizaje de Máquinas Automático es el campo que se enfoca en los métodos que tienen el objetivo de automatizar diferentes etapas del proceso de aprendizaje automático. Como su nombre indica, AutoML es la intersección de dos campos: automatización y ML. Las soluciones de AutoML están recibiendo incrementalmente más atención tanto por la comunidad de ML como por los usuarios por las grandes cantidades de datos disponibles en todas partes y la falta de expertos de aprendizaje automático que puedan supervisar/asesorar el desarrollo de sistemas basados en ML~\cite{hutter2019autmlbook}.
 
-%-----------------------------------------------------------------------------------
-		\begin{description}
-			\item [Primer Elemento] con su respectiva descripción.
-			\item [Segundo Elemento] también con su respectiva descripción.
-		\end{description}
+La comunidad de AutoML se ha centrado en resolver varias partes de un flujo de trabajo de aprendizaje automático estándar. Algunos ejemplos de estas partes o subtareas que son aplicadas en AutoML son:
+
+\begin{itemize}
+	\item Preparación Automática de Datos o \textit{Automated Data Preparation}
+	
+	\item Ingeniería Automática de Características o \textit{Automated Feature Engineering}
+	
+	\item Búsqueda de Arquitecturas Neuronales o \textit{Neural Architecture Search} (NAS)
+\end{itemize}
+
+Sin embargo, los estudios recientes de AutoML buscan automatizar el flujo de algoritmos de aprendizaje automático entero~\cite{fuerer2015efficient, olson2019tpot, paszke2019pytorch, chen2018autostacker, swearingen2017atm}. Un flujo de algoritmos es una forma de codificar y automatizar el flujo de trabajo necesario para producir un modelo de aprendizaje automático. Los flujos de algoritmos de aprendizaje automático constan de varios pasos secuenciales que realizan desde la extracción de datos y el preprocesamiento hasta el entrenamiento y la implementación del modelo~\cite{web-mlpipe}.
+
+Dos problemas importantes en AutoML son que ningún algoritmo de ML obtiene los mejores resultados en todos los datasets, también conocido como \textit{No Free Lunch Problem} \cite{wolpert1995no}, y que algunos métodos de aprendizaje automático dependen crucialmente de la optimización de hiperparámetros. Para la resolución de estos problemas AutoML se apoya de dos áreas o subtareas que constituyen su base: la selección de modelos (\textit{Model Selection}, MS)~\cite{thornton2013auto} y la optimización de hiperparámetros (\textit{Hyperparameter Optimization}, HPO)~\cite{fuerer2019hyperparameter}. La combinación de estas áreas se refiere al problema de AutoML como un problema de selección combinada de modelos y optimización de hiperparámetros (\textit{Combined Algorithm Selection and Hyperparameter Optimization}, CASH)~\cite{thornton2013auto}.
+
+Con el objetivo de abordar el problema de CASH el proceso de AutoML consta de tres componentes que definen el proceso de optimización:
+
+\begin{description}
+	\item[Espacio de Búsqueda:] precisa los algoritmos y todos los rangos válidos para sus hiperparámetros que son posibles soluciones para un problema de AutoML concreto. Además, se pueden optimizar combinaciones complejas de algoritmos, en cuyo caso las restricciones de compatibilidad entre algoritmos también son modeladas.
+	\item[Estrategia de Búsqueda:] detalla como se explora el espacio de búsqueda, que puede ser de tamaño exponencial o ilimitado. Se ve afectado por el clásico problema de Exploración vs. Explotación, ya que se quieren encontrar soluciones de alto rendimiento rápidamente, pero se debe evitar converger prematuramente a regiones subóptimas de búsqueda.
+	\item[Estrategias de Estimación de Rendimiento:] son mecanismos para estimar la capacidad predictiva de las soluciones encontradas por los sistemas de AutoML.
+\end{description}
+
+La estrategia de búsqueda es el proceso que sustituye la búsqueda de los hiperparámetros realizada por los humanos. Este procedimiento requiere tiempo y recursos considerables debido a los métodos de prueba y error que son necesitados para buscar el mejor modelo y su configuración de hiperparámetros. Por lo tanto, muchos métodos de optimización han surgido con el objetivo de acelerar esta búsqueda para liberar a los humanos de este tedioso proceso y para explorar el espacio de búsqueda definido de forma automática. Este proceso de optimización es el que pretende imitar el rol de los expertos y es el núcleo fundamental para resolver el problema de CASH. Algunos ejemplos de las estrategias de búsquedas más usadas son:
+
+\begin{description}
+	\item[Grid Search y Random Search:] \textit{Grid Search} (GS) es el proceso de discretizar cada hiperparámetro y evaluar exhaustivamente cada combinación de valores. Por otro lado, \textit{Random Search} (RS) o búsqueda aleatoria configura una cuadrícula de valores de hiperparámetros y selecciona combinaciones aleatorias para entrenar el modelo. Esto permite controlar explícitamente el número de combinaciones de parámetros que se intentan. Algunos sistemas de AutoML que han implementado versiones de estas estrategias son: Hyperopt~\cite{bergstra2013hyperopt}, Rafiki~\cite{wang2018rafiki} y FLAML~\cite{wang2021flaml}.
+ 	\item[Optimización Bayesiana:] BO es un algoritmo iterativo, cuya idea clave es modelar la asignación entre un conjunto de hiperparámetros $\lambda$ y da como resultado una estimación de su rendimiento $\hat{c}(\lambda)$ basado en valores de rendimiento observados encontrados en un archivo $A$ mediante regresión no lineal. Este modelo aproximado se denomina modelo sustituto, o modelo probabilístico, para el cual es normalmente utilizado un proceso gausiano o un bosque aleatorio. Esta estrategia de búsqueda ha sido utilizada por los siguientes sistenmas: Auto-WEKA~\cite{thornton2013auto}, Hyperopt~\cite{bergstra2013hyperopt}, Auto-Sklearn~\cite{fuerer2015efficient}, Auto-Net~\cite{mendoza2016towards} y Auto-Keras~\cite{jin2019auto}
+  	\item[Algoritmos Evolutivos:] Un algoritmo evolutivo (EA) es un subconjunto de la computación evolutiva, un algoritmo genérico de optimización metaheurística basado en la población. En un algoritmo evolutivo, una \textit{población} de soluciones candidatas (llamadas individuos, criaturas o fenotipos) en un problema de optimización evoluciona hacia mejores soluciones. Cada solución candidata tiene un conjunto de propiedades (sus cromosomas o genotipo) que se pueden mutar y alterar. En la terminología de la optimización de hiperparámetros un \textit{individuo} es una configuración de hiperparámetros única, la \textit{población} es un conjunto de configuraciones de hiperparámetros actualmente mantenido y la \textit{aptitud} de un individuo es su error de generalización. La mutación es el cambio (aleatorio) de uno o unos pocos valores de hiperparámetros en una configuración. El cruce crea una nueva configuración de hiperparámetros mezclando aleatoriamente los valores de otras dos configuraciones. Ejemplos del uso de algoritmos evolutivos el los sistemas de AutoML son: Autostacker~\cite{chen2018autostacker}, TPOT~\cite{olson2019tpot}, RECIPE~\cite{de2017recipe}, $Auto-MEKA_{GPP}$~\cite{de2018automated} y AutoGOAL~\cite{autogoal}.
+   \item[Aprendizaje por refuerzo:] El aprendizaje por refuerzo (RL), como estrategia de búsqueda, consiste en entrenar un agente que realiza modificaciones sobre una solución con el objetivo de maximizar una recompensa que depende del rendimiento de dicha solución. Es un marco de optimización muy general y sólido, que puede resolver problemas con retroalimentación retardada. A diferencia de los métodos anteriores, las retroalimentaciones (es decir, la recompensa y el estado) no necesitan ser devueltos inmediatamente una vez que se toma una acción. Se pueden devolver después de realizar una secuencia de acciones. Un ejemplo del uso de esta estrategia se encuentra en Alpha3DM~\cite{drori2018alphad3m}
+   \item[Monte Carlo Tree Search (MCTS):] Monte Carlo Tree Search (MCTS) es un algoritmo de búsqueda heurística para algunos tipos de procesos de decisión. El enfoque de MCTS es en el análisis de los movimientos más prometedores, expandiendo el árbol de búsqueda basado en un muestreo aleatorio del espacio de búsqueda. Cada ciclo de evaluación consiste en construir una solución completa, que se traduce en descender por una rama del árbol del espacio de búsqueda. En un algoritmo de Monte Carlo es necesario definir cómo se escoge el siguiente nodo a evaluar, lo que conlleva un balance entre exploración y explotación. A medida que se explora el espacio de búsqueda, se descubre qué decisiones en niveles superiores tienen un mejor rendimiento y se sesga la búsqueda hacia esas regiones del espacio. Ejemplos de la implementación de esta estrategia se encuentra en: MOSAIC~\cite{rakotoarison2019automated} 
+\end{description}
+
 
 %-----------------------------------------------------------------------------------
 	\subsection{Meta-Learning para AutoML}\label{sub:metalearning-automl}

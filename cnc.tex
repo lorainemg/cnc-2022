@@ -170,15 +170,16 @@ En esta seccion se proporciona una introducción a los campos y los trabajos que
 %-----------------------------------------------------------------------------------
 	\subsection{Meta-Learning}\label{sub:metalearning}
 %-----------------------------------------------------------------------------------
-		Puede agregar secciones y subsecciones según sea necesario para organizar
-		de manera más coherente su artículo. Tenga en cuenta que un documento más
-		plano es más fácil de navegar y entender, pero las subsecciones relacionadas
-		deberían estar agrupadas en una sección común.
+Meta-learning es mejor entendido comúnmente como ``aprendiendo a aprender'', lo cual se refiere al proceso de mejorar un algoritmo de aprendizaje a través de múltiples episodios de aprendizaje. En contraste, el aprendizaje automático convencional mejora las predicciones del modelo sobre múltiples instancias de datos. Durante el \textit{base-learning} o aprendizaje base, un algoritmo de aprendizaje interior (o inferior/base) resuelve una tarea como clasificación de imágenes, definida por un dataset y un objetivo. Durante \emph{meta-learning}, un algoritmo externo (o superior/meta) actualiza el algoritmo interior de tal manera que el modelo que aprende mejora un objetivo externo. Los episodios de aprendizaje de la tarea base pueden ser vistos como una forma de proveer las instancias necesitadas por el algoritmo externo para aprender el algoritmo de aprendizaje base~\cite{hospedales2021metalearning}. 
 
-		Los nombres de las secciones deben ir en mayúsculas, excepto para las
-		preposiciones, conjunciones, y otros vocablos auxiliares.
+Meta-learning difiere de \textit{base-learning} en el alcance del nivel de adaptación. Mientras que el aprendizaje en un nivel base está enfocado en acumular experiencia en una tarea específica, el aprendizaje en meta-learning tiene el objetivo de acumular experiencia en el rendimiento de múltiples aplicaciones de un sistema de aprendizaje. De esta forma, muchos algoritmos convencionales tales como la búsqueda aleatoria de hiperparámetros mediante validación cruzada podrían caer en la definición de meta-learning. La característica destacada del \emph{meta-learning} contemporáneo es un meta-objetivo explícitamente definido, y una optimización de extremo a extremo del algoritmo interior con respecto a este objetivo.
 
-		Empiece un nuevo párrafo cada vez que vaya a comenzar una idea nueva.
+Un sistema de meta-learning está compuesto esencialmente por dos partes. Una parte tiene la tarea de adquirir meta-conocimiento de sistemas de aprendizaje automático. La otra parte tiene el objetivo de aplicar este meta-conocimiento a nuevos problemas con el objetivo de identificar un algoritmo o técnica de aprendizaje óptimo~\cite{bradzil2017metalearning}.
+
+Meta-learning puede ser empleada en una variedad de configuraciones, con cierto desacuerdo en la literatura sobre lo que constituye exactamente un problema de meta-learning. Meta-learning es extremadamente útil en los casos donde es requerido un modelo de aprendizaje automático y hay poca cantidad de datos, ya que el modelo contiene muchos parámetros que no pueden ser estimados precisamente con pocos datos. Algunas de las aplicaciones comunes son en la investigación robótica, donde se espera que los robots tengan un mayor nivel de autonomía en IA, en el descubrimiento de drogas para manejar los datos de altas dimensiones con un tamaño de muestra pequeño y en la traducción de lenguajes raramente usados~\cite{peng2020comprehensive}. Además, meta-learning es ampliamente empleado en el problema de selección de algoritmos, sobre esta aplicación se profundiza en la Sección \ref{sub:metalearning-automl}.
+
+Meta-learning constituye una solución factible para los problemas donde una definición específica de ``tarea'' y ``etiqueta'' puede ser claramente distinguida. Un sistema de meta-learning es flexible y puede ser integrado convenientemente con la mayoría de los algoritmos de aprendizaje automático para proporcionar soluciones factibles~\cite{peng2020comprehensive}. Para las tareas que son computacionalmente costosas, meta-learning presenta la opción de agregación o adaptación de los resultados anteriores para salvar recursos computacionales.
+ 
 
 %-----------------------------------------------------------------------------------
 	\subsection{AutoML}\label{sub:automl}

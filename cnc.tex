@@ -166,7 +166,8 @@ El objetivo general de este trabajo es el diseño de una estrategia de meta-lear
 %-----------------------------------------------------------------------------------
 \section{Estado del Arte}\label{sec:review}
 %-----------------------------------------------------------------------------------
-En esta seccion se proporciona una introducción a los campos y los trabajos que están relacionados con las técnicas utilizadas en este trabajo. Se comienza introduciendo las ideas básicas de meta-learning (\ref{sub:metalearning}), definiendo el problema que este campo resuelve, explicando la estructura de un sistema de meta-learning y varias de sus aplicaciones. El objetivo fundamental de este trabajo es añadir componentes de meta-learning a un sistema de \textit{Automated Machine Learning} (AutoML), así que este campo es introducido (\ref{sub:automl}). Se presentan diferentes formulaciones teóricas del problema de AutoML y se describen los componentes fundamentales de un proceso de AutoML, así como ejemplos de sistemas para cada uno de los enfoques existentes. El área de interés de esta investigación es la aplicación de meta-learning para la selección de modelos, en concreto, su utilización para añadir conocimiento en sistemas AutoML, por lo que varias técnicas para la solución de este problema son estudiadas (\ref{sub:metalearning-automl}).
+En esta seccion se proporciona una introducción a los campos y los trabajos que están relacionados con las técnicas utilizadas en este trabajo. Se comienza introduciendo las ideas básicas de meta-learning (\ref{sub:metalearning}), definiendo el problema que este campo resuelve, explicando la estructura de un sistema de meta-learning y varias de sus aplicaciones. El área de interés de esta investigación es la aplicación de meta-learning para la selección de modelos, en concreto, su utilización para añadir conocimiento en sistemas AutoML, por lo que varias técnicas para la solución de este problema son estudiadas (\ref{sub:metalearning-automl}).
+
 %-----------------------------------------------------------------------------------
 	\subsection{Meta-Learning}\label{sub:metalearning}
 %-----------------------------------------------------------------------------------
@@ -182,95 +183,162 @@ Meta-learning constituye una solución factible para los problemas donde una def
  
 
 %-----------------------------------------------------------------------------------
-	\subsection{AutoML}\label{sub:automl}
-%-----------------------------------------------------------------------------------
+% 	\subsection{AutoML}\label{sub:automl}
+% %-----------------------------------------------------------------------------------
 
-\textit{Automated Machine Learning} (AutoML) o Aprendizaje de Máquinas Automático es el campo que se enfoca en los métodos que tienen el objetivo de automatizar diferentes etapas del proceso de aprendizaje automático. Como su nombre indica, AutoML es la intersección de dos campos: automatización y ML. Las soluciones de AutoML están recibiendo incrementalmente más atención tanto por la comunidad de ML como por los usuarios por las grandes cantidades de datos disponibles en todas partes y la falta de expertos de aprendizaje automático que puedan supervisar/asesorar el desarrollo de sistemas basados en ML~\cite{hutter2019autmlbook}.
+% \textit{Automated Machine Learning} (AutoML) o Aprendizaje de Máquinas Automático es el campo que se enfoca en los métodos que tienen el objetivo de automatizar diferentes etapas del proceso de aprendizaje automático. Como su nombre indica, AutoML es la intersección de dos campos: automatización y ML. Las soluciones de AutoML están recibiendo incrementalmente más atención tanto por la comunidad de ML como por los usuarios por las grandes cantidades de datos disponibles en todas partes y la falta de expertos de aprendizaje automático que puedan supervisar/asesorar el desarrollo de sistemas basados en ML~\cite{hutter2019autmlbook}.
 
-La comunidad de AutoML se ha centrado en resolver varias partes de un flujo de trabajo de aprendizaje automático estándar. Algunos ejemplos de estas partes o subtareas que son aplicadas en AutoML son:
+% La comunidad de AutoML se ha centrado en resolver varias partes de un flujo de trabajo de aprendizaje automático estándar. Algunos ejemplos de estas partes o subtareas que son aplicadas en AutoML son:
 
-\begin{itemize}
-	\item Preparación Automática de Datos o \textit{Automated Data Preparation}
+% \begin{itemize}
+% 	\item Preparación Automática de Datos o \textit{Automated Data Preparation}
 	
-	\item Ingeniería Automática de Características o \textit{Automated Feature Engineering}
+% 	\item Ingeniería Automática de Características o \textit{Automated Feature Engineering}
 	
-	\item Búsqueda de Arquitecturas Neuronales o \textit{Neural Architecture Search} (NAS)
-\end{itemize}
+% 	\item Búsqueda de Arquitecturas Neuronales o \textit{Neural Architecture Search} (NAS)
+% \end{itemize}
 
-Sin embargo, los estudios recientes de AutoML buscan automatizar el flujo de algoritmos de aprendizaje automático entero~\cite{fuerer2015efficient, olson2019tpot, paszke2019pytorch, chen2018autostacker, swearingen2017atm}. Un flujo de algoritmos es una forma de codificar y automatizar el flujo de trabajo necesario para producir un modelo de aprendizaje automático. Los flujos de algoritmos de aprendizaje automático constan de varios pasos secuenciales que realizan desde la extracción de datos y el preprocesamiento hasta el entrenamiento y la implementación del modelo~\cite{web-mlpipe}.
+% Sin embargo, los estudios recientes de AutoML buscan automatizar el flujo de algoritmos de aprendizaje automático entero~\cite{fuerer2015efficient, olson2019tpot, paszke2019pytorch, chen2018autostacker, swearingen2017atm}. Un flujo de algoritmos es una forma de codificar y automatizar el flujo de trabajo necesario para producir un modelo de aprendizaje automático. Los flujos de algoritmos de aprendizaje automático constan de varios pasos secuenciales que realizan desde la extracción de datos y el preprocesamiento hasta el entrenamiento y la implementación del modelo~\cite{web-mlpipe}.
 
-Dos problemas importantes en AutoML son que ningún algoritmo de ML obtiene los mejores resultados en todos los datasets, también conocido como \textit{No Free Lunch Problem} \cite{wolpert1995no}, y que algunos métodos de aprendizaje automático dependen crucialmente de la optimización de hiperparámetros. Para la resolución de estos problemas AutoML se apoya de dos áreas o subtareas que constituyen su base: la selección de modelos (\textit{Model Selection}, MS)~\cite{thornton2013auto} y la optimización de hiperparámetros (\textit{Hyperparameter Optimization}, HPO)~\cite{fuerer2019hyperparameter}. La combinación de estas áreas se refiere al problema de AutoML como un problema de selección combinada de modelos y optimización de hiperparámetros (\textit{Combined Algorithm Selection and Hyperparameter Optimization}, CASH)~\cite{thornton2013auto}.
+% Dos problemas importantes en AutoML son que ningún algoritmo de ML obtiene los mejores resultados en todos los datasets, también conocido como \textit{No Free Lunch Problem} \cite{wolpert1995no}, y que algunos métodos de aprendizaje automático dependen crucialmente de la optimización de hiperparámetros. Para la resolución de estos problemas AutoML se apoya de dos áreas o subtareas que constituyen su base: la selección de modelos (\textit{Model Selection}, MS)~\cite{thornton2013auto} y la optimización de hiperparámetros (\textit{Hyperparameter Optimization}, HPO)~\cite{fuerer2019hyperparameter}. La combinación de estas áreas se refiere al problema de AutoML como un problema de selección combinada de modelos y optimización de hiperparámetros (\textit{Combined Algorithm Selection and Hyperparameter Optimization}, CASH)~\cite{thornton2013auto}.
 
-Con el objetivo de abordar el problema de CASH el proceso de AutoML consta de tres componentes que definen el proceso de optimización:
+% Con el objetivo de abordar el problema de CASH el proceso de AutoML consta de tres componentes que definen el proceso de optimización:
 
-\begin{description}
-	\item[Espacio de Búsqueda:] precisa los algoritmos y todos los rangos válidos para sus hiperparámetros que son posibles soluciones para un problema de AutoML concreto. Además, se pueden optimizar combinaciones complejas de algoritmos, en cuyo caso las restricciones de compatibilidad entre algoritmos también son modeladas.
-	\item[Estrategia de Búsqueda:] detalla como se explora el espacio de búsqueda, que puede ser de tamaño exponencial o ilimitado. Se ve afectado por el clásico problema de Exploración vs. Explotación, ya que se quieren encontrar soluciones de alto rendimiento rápidamente, pero se debe evitar converger prematuramente a regiones subóptimas de búsqueda.
-	\item[Estrategias de Estimación de Rendimiento:] son mecanismos para estimar la capacidad predictiva de las soluciones encontradas por los sistemas de AutoML.
-\end{description}
+% \begin{description}
+% 	\item[Espacio de Búsqueda:] precisa los algoritmos y todos los rangos válidos para sus hiperparámetros que son posibles soluciones para un problema de AutoML concreto. Además, se pueden optimizar combinaciones complejas de algoritmos, en cuyo caso las restricciones de compatibilidad entre algoritmos también son modeladas.
+% 	\item[Estrategia de Búsqueda:] detalla como se explora el espacio de búsqueda, que puede ser de tamaño exponencial o ilimitado. Se ve afectado por el clásico problema de Exploración vs. Explotación, ya que se quieren encontrar soluciones de alto rendimiento rápidamente, pero se debe evitar converger prematuramente a regiones subóptimas de búsqueda.
+% 	\item[Estrategias de Estimación de Rendimiento:] son mecanismos para estimar la capacidad predictiva de las soluciones encontradas por los sistemas de AutoML.
+% \end{description}
 
-La estrategia de búsqueda es el proceso que sustituye la búsqueda de los hiperparámetros realizada por los humanos. Este procedimiento requiere tiempo y recursos considerables debido a los métodos de prueba y error que son necesitados para buscar el mejor modelo y su configuración de hiperparámetros. Por lo tanto, muchos métodos de optimización han surgido con el objetivo de acelerar esta búsqueda para liberar a los humanos de este tedioso proceso y para explorar el espacio de búsqueda definido de forma automática. Este proceso de optimización es el que pretende imitar el rol de los expertos y es el núcleo fundamental para resolver el problema de CASH. Algunos ejemplos de las estrategias de búsquedas más usadas son:
+% La estrategia de búsqueda es el proceso que sustituye la búsqueda de los hiperparámetros realizada por los humanos. Este procedimiento requiere tiempo y recursos considerables debido a los métodos de prueba y error que son necesitados para buscar el mejor modelo y su configuración de hiperparámetros. Por lo tanto, muchos métodos de optimización han surgido con el objetivo de acelerar esta búsqueda para liberar a los humanos de este tedioso proceso y para explorar el espacio de búsqueda definido de forma automática. Este proceso de optimización es el que pretende imitar el rol de los expertos y es el núcleo fundamental para resolver el problema de CASH. Algunos ejemplos de las estrategias de búsquedas más usadas son:
 
-\begin{description}
-	\item[Grid Search y Random Search:] \textit{Grid Search} (GS) es el proceso de discretizar cada hiperparámetro y evaluar exhaustivamente cada combinación de valores. Por otro lado, \textit{Random Search} (RS) o búsqueda aleatoria configura una cuadrícula de valores de hiperparámetros y selecciona combinaciones aleatorias para entrenar el modelo. Esto permite controlar explícitamente el número de combinaciones de parámetros que se intentan. Algunos sistemas de AutoML que han implementado versiones de estas estrategias son: Hyperopt~\cite{bergstra2013hyperopt}, Rafiki~\cite{wang2018rafiki} y FLAML~\cite{wang2021flaml}.
- 	\item[Optimización Bayesiana:] BO es un algoritmo iterativo, cuya idea clave es modelar la asignación entre un conjunto de hiperparámetros $\lambda$ y da como resultado una estimación de su rendimiento $\hat{c}(\lambda)$ basado en valores de rendimiento observados encontrados en un archivo $A$ mediante regresión no lineal. Este modelo aproximado se denomina modelo sustituto, o modelo probabilístico, para el cual es normalmente utilizado un proceso gausiano o un bosque aleatorio. Esta estrategia de búsqueda ha sido utilizada por los siguientes sistenmas: Auto-WEKA~\cite{thornton2013auto}, Hyperopt~\cite{bergstra2013hyperopt}, Auto-Sklearn~\cite{fuerer2015efficient}, Auto-Net~\cite{mendoza2016towards} y Auto-Keras~\cite{jin2019auto}
-  	\item[Algoritmos Evolutivos:] Un algoritmo evolutivo (EA) es un subconjunto de la computación evolutiva, un algoritmo genérico de optimización metaheurística basado en la población. En un algoritmo evolutivo, una \textit{población} de soluciones candidatas (llamadas individuos, criaturas o fenotipos) en un problema de optimización evoluciona hacia mejores soluciones. Cada solución candidata tiene un conjunto de propiedades (sus cromosomas o genotipo) que se pueden mutar y alterar. En la terminología de la optimización de hiperparámetros un \textit{individuo} es una configuración de hiperparámetros única, la \textit{población} es un conjunto de configuraciones de hiperparámetros actualmente mantenido y la \textit{aptitud} de un individuo es su error de generalización. La mutación es el cambio (aleatorio) de uno o unos pocos valores de hiperparámetros en una configuración. El cruce crea una nueva configuración de hiperparámetros mezclando aleatoriamente los valores de otras dos configuraciones. Ejemplos del uso de algoritmos evolutivos el los sistemas de AutoML son: Autostacker~\cite{chen2018autostacker}, TPOT~\cite{olson2019tpot}, RECIPE~\cite{de2017recipe}, $Auto-MEKA_{GPP}$~\cite{de2018automated} y AutoGOAL~\cite{autogoal}.
-   \item[Aprendizaje por refuerzo:] El aprendizaje por refuerzo (RL), como estrategia de búsqueda, consiste en entrenar un agente que realiza modificaciones sobre una solución con el objetivo de maximizar una recompensa que depende del rendimiento de dicha solución. Es un marco de optimización muy general y sólido, que puede resolver problemas con retroalimentación retardada. A diferencia de los métodos anteriores, las retroalimentaciones (es decir, la recompensa y el estado) no necesitan ser devueltos inmediatamente una vez que se toma una acción. Se pueden devolver después de realizar una secuencia de acciones. Un ejemplo del uso de esta estrategia se encuentra en Alpha3DM~\cite{drori2018alphad3m}
-   \item[Monte Carlo Tree Search (MCTS):] Monte Carlo Tree Search (MCTS) es un algoritmo de búsqueda heurística para algunos tipos de procesos de decisión. El enfoque de MCTS es en el análisis de los movimientos más prometedores, expandiendo el árbol de búsqueda basado en un muestreo aleatorio del espacio de búsqueda. Cada ciclo de evaluación consiste en construir una solución completa, que se traduce en descender por una rama del árbol del espacio de búsqueda. En un algoritmo de Monte Carlo es necesario definir cómo se escoge el siguiente nodo a evaluar, lo que conlleva un balance entre exploración y explotación. A medida que se explora el espacio de búsqueda, se descubre qué decisiones en niveles superiores tienen un mejor rendimiento y se sesga la búsqueda hacia esas regiones del espacio. Ejemplos de la implementación de esta estrategia se encuentra en: MOSAIC~\cite{rakotoarison2019automated} 
-\end{description}
-
+% \begin{description}
+% 	\item[Grid Search y Random Search:] \textit{Grid Search} (GS) es el proceso de discretizar cada hiperparámetro y evaluar exhaustivamente cada combinación de valores. Por otro lado, \textit{Random Search} (RS) o búsqueda aleatoria configura una cuadrícula de valores de hiperparámetros y selecciona combinaciones aleatorias para entrenar el modelo. Esto permite controlar explícitamente el número de combinaciones de parámetros que se intentan. Algunos sistemas de AutoML que han implementado versiones de estas estrategias son: Hyperopt~\cite{bergstra2013hyperopt}, Rafiki~\cite{wang2018rafiki} y FLAML~\cite{wang2021flaml}.
+%  	\item[Optimización Bayesiana:] BO es un algoritmo iterativo, cuya idea clave es modelar la asignación entre un conjunto de hiperparámetros $\lambda$ y da como resultado una estimación de su rendimiento $\hat{c}(\lambda)$ basado en valores de rendimiento observados encontrados en un archivo $A$ mediante regresión no lineal. Este modelo aproximado se denomina modelo sustituto, o modelo probabilístico, para el cual es normalmente utilizado un proceso gausiano o un bosque aleatorio. Esta estrategia de búsqueda ha sido utilizada por los siguientes sistenmas: Auto-WEKA~\cite{thornton2013auto}, Hyperopt~\cite{bergstra2013hyperopt}, Auto-Sklearn~\cite{fuerer2015efficient}, Auto-Net~\cite{mendoza2016towards} y Auto-Keras~\cite{jin2019auto}
+%   	\item[Algoritmos Evolutivos:] Un algoritmo evolutivo (EA) es un subconjunto de la computación evolutiva, un algoritmo genérico de optimización metaheurística basado en la población. En un algoritmo evolutivo, una \textit{población} de soluciones candidatas (llamadas individuos, criaturas o fenotipos) en un problema de optimización evoluciona hacia mejores soluciones. Cada solución candidata tiene un conjunto de propiedades (sus cromosomas o genotipo) que se pueden mutar y alterar. En la terminología de la optimización de hiperparámetros un \textit{individuo} es una configuración de hiperparámetros única, la \textit{población} es un conjunto de configuraciones de hiperparámetros actualmente mantenido y la \textit{aptitud} de un individuo es su error de generalización. La mutación es el cambio (aleatorio) de uno o unos pocos valores de hiperparámetros en una configuración. El cruce crea una nueva configuración de hiperparámetros mezclando aleatoriamente los valores de otras dos configuraciones. Ejemplos del uso de algoritmos evolutivos el los sistemas de AutoML son: Autostacker~\cite{chen2018autostacker}, TPOT~\cite{olson2019tpot}, RECIPE~\cite{de2017recipe}, $Auto-MEKA_{GPP}$~\cite{de2018automated} y AutoGOAL~\cite{autogoal}.
+%    \item[Aprendizaje por refuerzo:] El aprendizaje por refuerzo (RL), como estrategia de búsqueda, consiste en entrenar un agente que realiza modificaciones sobre una solución con el objetivo de maximizar una recompensa que depende del rendimiento de dicha solución. Es un marco de optimización muy general y sólido, que puede resolver problemas con retroalimentación retardada. A diferencia de los métodos anteriores, las retroalimentaciones (es decir, la recompensa y el estado) no necesitan ser devueltos inmediatamente una vez que se toma una acción. Se pueden devolver después de realizar una secuencia de acciones. Un ejemplo del uso de esta estrategia se encuentra en Alpha3DM~\cite{drori2018alphad3m}
+%    \item[Monte Carlo Tree Search (MCTS):] Monte Carlo Tree Search (MCTS) es un algoritmo de búsqueda heurística para algunos tipos de procesos de decisión. El enfoque de MCTS es en el análisis de los movimientos más prometedores, expandiendo el árbol de búsqueda basado en un muestreo aleatorio del espacio de búsqueda. Cada ciclo de evaluación consiste en construir una solución completa, que se traduce en descender por una rama del árbol del espacio de búsqueda. En un algoritmo de Monte Carlo es necesario definir cómo se escoge el siguiente nodo a evaluar, lo que conlleva un balance entre exploración y explotación. A medida que se explora el espacio de búsqueda, se descubre qué decisiones en niveles superiores tienen un mejor rendimiento y se sesga la búsqueda hacia esas regiones del espacio. Ejemplos de la implementación de esta estrategia se encuentra en: MOSAIC~\cite{rakotoarison2019automated} 
+% \end{description}
 
 %-----------------------------------------------------------------------------------
 	\subsection{Meta-Learning para AutoML}\label{sub:metalearning-automl}
 %-----------------------------------------------------------------------------------
-		Para producir cuerpos flotantes (figuras o tablas), asegúrese de numerar
-		y etiquetar correctamente cada figura. Las referencias a las figuras deben
-		estar correctamente etiquetadas. Por ejemplo, véase la Fig. \ref{fig:ex}\ldots
 
-		\begin{figure}[h!]%
-		\begin{center}
-			\begin{tabular}{|c|c|c|} \hline
-			 			& Método 1 	& Método 2 	\\ \hline
-			A 			&  			&  			\\ \hline
-			B			& 			& 			\\ \hline
-			C 			& 			&  			\\ \hline
-			\end{tabular}
-		\caption{Figura de ejemplo. Recuerde especificar el origen de los datos que se muestran. \label{fig:ex}}
-		\end{center}
-		\end{figure}
+La principal área de investigación de meta-learning estudiada en este trabajo es la selección de algoritmos, la cual ha recibido una considerable cantidad de investigación. En el caso especial de meta-learning, el aspecto de interés es la relación entre las características de los datos y el rendimiento del algoritmo, con el objetivo final de predecir un algoritmo o un conjunto de algoritmos adecuado para un problema específico. Como motivación está el hecho de que es inviable examinar todas las posibles alternativas de algoritmos en un procedimiento de prueba y error. La aplicación de meta-learning en este campo puede, por lo tanto, ser útil tanto para proveer una recomendación para un usuario final como de paso preliminar para recomendar algoritmos a soluciones más costosas computacionalmente, como los algoritmos de optimización usados en herramientas de AutoML. 
+
+
+El desafío en meta-learning para la selección de modelos es aprender de experiencias pasadas de una forma sistemática e impulsada por los datos. Primero, es necesario extraer los meta-datos que describen las tareas de aprendizaje anteriores y los modelos previamente aprendidos. Estos meta-datos comprenden las configuraciones exactas de los algoritmos empleados para entrenar los modelos, incluyendo:
+
+\begin{itemize}
+	\item Las configuraciones de los hiperparámetros, composiciones de los flujos de algoritmos y/o arquitecturas de redes neuronales.
+	\item Las evaluaciones del modelo resultante, tales como la precisión y el tiempo de entrenamiento.
+%	\item Los parámetros del modelo aprendidos, tales como los pesos entrenados de una red neuronal.
+	\item Propiedades medibles de la tarea en sí, que son extraídas de los datasets, también conocidas como meta-características.
+\end{itemize}
+
+Luego es necesario aprender de estos meta-datos previos, para extraer y transferir conocimiento de la búsqueda de los modelos óptimos para nuevas tareas. El resto de esta sección presenta una visión general de diferentes enfoques de meta-learning para hacer esto efectivamente. Además, se muestran ejemplos de cómo estos enfoques han sido utilizados como paso preliminar en varias herramientas de AutoML.
+
+En esta sección las técnicas de meta-learning son separadas en grupos de acuerdo al tipo de meta-datos que ellas aprovechan \cite{vanschoren2018metalearning}. Primero, se discute cómo caracterizar las tareas para expresar más explícitamente la similitud entre ellas y cómo construir meta-modelos para aprender las relaciones entre las características de los datos y el rendimiento de las distintas evaluaciones de los modelos (Sección \ref{subsec:mtl_automl_proprerties}), y luego se describe como se aprende solamente de evaluaciones de los modelos (Sección \ref{subsec:mtl_automl_evaluations}).
+
+\subsubsection{Aprendiendo de las propiedades de las tareas}\label{subsec:mtl_automl_proprerties}
+La principal característica de esta técnica es el uso de meta-características para medir la similitud de las tareas. Así, por ejemplo, podemos usar la distancia euclidiana entre $m(t_{new})$ y $m(t_j), \forall t_j \in T$ para transferir información de las tareas más similares a la nueva tarea $t_{new}$.
+
+Con esta técnica de meta-learning se puede entrenar un meta-modelo (o \textit{meta-learner}) $L$ que predice el rendimiento de las configuraciones recomendadas $\Theta^*_{new}$ en una nueva tarea $t_{new}$. El meta-modelo es entrenado con los meta-datos $P\cup M$, donde $P$ y $M$ son usualmente calculados de antemano, o extraídos de repositorios de meta-datos.
+
+Cómo extraer información adecuada para caracterizar tareas específicas es una de las preguntas fundamentales en meta-learning. Investigadores han intentado contestar esta pregunta observando las características de los datasets que afectan el rendimiento de los algoritmos~\cite{Rivolli2018TowardsRE}. Estas caracterizaciones son denominadas meta-características y usualmente se encuentran divididos en cinco grupos. Estos grupos son subconjuntos de medidas de caracterización \cite{bradzil2009metalearning} que comparten similitudes entre ellas:
+
+\begin{description}
+	\item[Simple:] representan información básica sobre el dataset. Hasta un determinado punto son concebidas para medir la complejidad del problema subyacente. Algunas de las caracterizaciones incluidas en este grupo son: el número de instancias, el número de atributos, la dimensionalidad del dataset, la proporción de valores faltantes, etc. También son llamadas medidas \textit{generales}.
+	
+	\item[Estadísticas:] son características que capturan las propiedades estadísticas de los datos. Estas métricas capturan los indicadores de distribución de datos, tales como la media, la desviación estándar, la correlación y curtosis.
+	
+	\item[Teóricas de la información:] son características del campo de teoría de la información. Estas medidas están basadas en la entropía, la cual captura la cantidad de información en los datos y su complejidad.
+	
+	\item[Basados en modelos:] son características extraídas de un modelo inducido de los datos de entrenamiento. Las características en este grupo están caracterizadas por la extracción de información de un modelo de aprendizaje de predicción, generalmente, un árbol de decisión.
+	
+	\item[\textit{Landmarking}:] son características que usan el rendimiento de algoritmos de aprendizaje simples y rápidos para caracterizar los datasets. Los algoritmos deben tener diferentes sesgos y capturar información importante con un costo computacional bajo.
+\end{description}
+
+Construyendo un meta-modelo o \textit{meta-learner} $L$ podemos aprender relaciones complejas entre las meta-características de una tarea y la utilidad de una configuración específica. Dadas las meta-características $M$ de una nueva tarea $t_{new}$ este meta-modelo $L$ tiene el objetivo de recomendar la configuración más útil $\Theta_{new}^*$ para esta tarea. Existe un gran grupo de trabajos previos construyendo modelos para la selección de algoritmos y recomendación de hiperparámetros. En esta sección se usan ejemplos de varios meta-modelos de acuerdo al tipo de tarea que resuelven: pueden ser usados para rankear un conjunto determinado de configuraciones o para predecir el rendimiento de una nueva tarea.
+
+Los meta-modelos pueden ser usados para generar un ranking de las $K$ mejores configuraciones dado un conjunto de meta-características $M$ y una nueva tarea $t_{new}$. Se obtiene así un conjunto prometedor de modelos con sus hiperparámetros para esta nueva tarea.
+ 
+Uno de los enfoques más populares es construir un meta-modelo de \textit{K-Nearest Neighbor} (kNN) para predecir las tareas que son similares, y luego rankear las mejores configuraciones en estas tareas similares~\cite{santos2004selection, bradzil2003ranking}. En uno de los enfoques seguidos se utiliza una evaluación multicriterio que toma en cuenta la precisión obtenida y el tiempo de entrenamiento de una configuración: \textit{Adjusted Ratio of Ratios} (ARR) o el Radio Ajustado de Radios para formar los rankings. Existen muchas medidas para la evaluación de un ranking determinado, el más utilizado es el coeficiente de correlación de Spearman~\cite{santos2004selection}, el cual mide la distancia del ranking recomendado al ranking ideal. El ranking ideal corresponde al ordenamiento correcto de los modelos candidatos para una tarea determinada.
+
+Muchos sistemas de AutoML han seguido el enfoque de vecinos cercanos (\textit{nearest neighbor}) para predecir las tareas similares, debido a la simplicidad de esta técnica. Auto-sklearn \cite{fuerer2015efficient} fue la primera herramienta de AutoML en seguir este enfoque. Es implementado sobre \texttt{scikit-learn}~\cite{scikit-learn}, una biblioteca popular de aprendizaje automático en Python. 
+%Usa 15 clasificadores, 14 métodos de preprocesamiento de características  y 4 métodos de preprocesamiento de datos. 
+Este sistema mejora los métodos existentes de AutoML tomando en cuenta automáticamente la experiencia pasada en datasets similares y construyendo \textit{ensembles} de los modelos evaluados durante la optimización. Auto-sklearn introdujo la idea de meta-learning en la inicialización de la selección de modelos y el ajuste de hiperparámetros~\cite{vanschoren2018metalearning}.
+
+SmartML~\cite{maher2019smartml} está equipado con una base de conocimiento constantemente actualizada que guarda información sobre las meta-características de todos los datasets procesados con su rendimiento asociado de los diferentes clasificadores y sus parámetros ajustados. Para cada dataset nuevo SmartML automáticamente extrae sus meta-características y busca en su base de conocimiento el algoritmo que mejor rendimiento tenga para empezar su proceso de optimización. Una vez elegido el algoritmo, usa optimización bayesiana basada en SMAC para la optimización de hiperparámetros. Sigue el mismo procedimiento basado en meta-características de Auto-sklearn para determinar datasets similares, utilizando el enfoque de vecinos cercanos, el cual está seguido por un mecanismo ponderado entre dos factores diferentes para elegir los algoritmos de los datasets similares más prometedores: la distancia euclidiana entre las meta-características del dataset y las meta-características de todos los datasets guardados en la base de conocimiento y el rendimiento de los mejores algoritmos en datasets similares.
+
+MOSAIC (\textbf{MO}nte-Carlo tree \textbf{S}earch for \textbf{A}lgor\textbf{I}thm \textbf{C}onfiguration) \cite{rakotoarison2019automated} es un enfoque de AutoML basado en Monte-Carlo Tree Search (MCTS), que fue presentado para manejar las estructuras híbridas de AutoML y el problema costoso de optimización de caja negra paramétrico. La novedad de MOSAIC es que aborda el problema de optimización estructural y paramétrico usando 2 estrategias asociadas: MCTS es utilizada para abordar la optimización de la estructura \textbf{a} y la optimización bayesiana es usada para abordar la optimización paramétrica de $\omega(a)$, donde el acoplamiento es asegurado mediante los modelos sustitutos.
+
+ATOMIC (\textit{Automated Imbalanced Classification})~\cite{atomic} es un enfoque de AutoML para desarrollar soluciones de ML para abordar tareas de Aprendizaje de Dominio Desbalanceado o \textit{Imbalanced Domain Learning} (IDL) basado en meta-learning. Proporcionan un ranking de soluciones más probables de asegurar una aproximación óptima a un nuevo dominio, reduciendo drásticamente la complejidad computacional asociada a esta tarea. Esto lo llevan a cabo anticipando la pérdida de un gran conjunto de soluciones predictivas en una nueva tarea de aprendizaje desbalanceado. A diferencia de los ejemplos anteriores para la predicción de los rankings no usan el enfoque de vecinos cercanos, sino que usan como meta-modelo el algoritmo de aprendizaje XGBoost~\cite{xgboost} para generar un ranking de los algoritmos más prometedores. 
+
+\subsubsection{Aprendiendo de las evaluaciones de modelos}\label{subsec:mtl_automl_evaluations}
+
+Otro grupo de técnicas de meta-learning están basadas en aprender de evaluaciones de los modelos. En este contexto, el problema se define como, dado un conjunto de configuraciones de algoritmos de aprendizaje, tareas anteriores, evaluaciones de las tareas anteriores en dichas configuraciones y un conjunto de evaluaciones conocidas en una tarea nueva, recomendar configuraciones teninedo en cuenta los rendimientos de las configuraciones anteriores y el conjunto de evaluacions de la nueva tarea.
+
+Estas técnicas son usadas generalmente para recomendar configuraciones y espacios de búsqueda útiles, así como transferir conocimiento de tareas empíricamente similares. Algunas de estas técnicas son explicadas a continuación. 
+
+Supongamos que no tenemos acceso a ninguna evaluación de la nueva tarea. Aun así se puede aprender una función que dé como resultado un conjunto de configuraciones recomendadas independientes de la nueva tarea. Estas configuraciones pueden ser evaluados en la nueva tarea para seleccionar el mejor, o para inicializar otros enfoques de optimización.
+
+Los sistemas de AutoML han incorporado esta técnica mediante el uso de portafolios, que es comúnmente creado discretizando el conjunto de algoritmos e hiperparámetros en un conjunto de configuraciones candidatas, evaluados en un gran número de tareas anteriores.
+
+Auto-Pytorch \cite{zimmer2021auto} es un ejemplo de estos sistemas que usan portafolios para crear un conjunto inicial de flujos de algoritmos para la subsecuente optimización. Auto-Pytorch optimiza la arquitectura de red y los hiperparámetros de entrenamiento para permitir aprendizaje profundo completamente automatizado (\textit{Automated Deep Learning}, AutoDL). 
+%Combina optimización \textit{multifidelity} con construcción de portafolio de un conjunto inicial, \textit{ensembling} de redes neuronales profundas (DNNs) y baselines comunes para datos tabulares.
+ Auto-Pytorch simplemente empieza la primera iteración con un conjunto de configuraciones complementarias que cubren bien un conjunto de datasets de meta-entrenamiento, después de esto ejecuta un algoritmo de optimización para la búsqueda de los mejores hiperparámetros. Para esto se construye inicialmente un portafolio inicial. Para construir el portafolio offline, se realiza una ejecución de su algoritmo de optimización en cada uno de los datasets de meta-entrenamiento, dando lugar a un conjunto de candidatos. Las configuraciones de las ejecuciones individuales son entonces evaluadas en todos los datasets, resultando en una meta-matriz de rendimiento. Para cada uno de los candidatos, configuraciones son añadidas iterativamente y de forma \textit{greedy}.
+ % para minimizar su \textit{relative regret} promedio sobre todos los meta datasets. En la primera iteración la mejor configuración en promedio para todos los datasets es añadida al portafolio. En todas las iteraciones subsecuentes, son añadidas configuraciones que tienden a ser más especializadas a subconjuntos de los datasets, para los cuales son posibles mejoras. 
+ Las configuraciones son añadidas de esta manera hasta que un tamaño predefinido del portafolio es alcanzado. Limitando el tamaño del portafolio se balancea entre empezar con configuraciones prometedoras y la sobrecarga inducida por el primer portafolio ejecutado. Este enfoque asume (como todos los enfoques de meta-learning) que tenemos acceso a un conjunto razonable de datasets de meta-entrenamiento que son representativos de los datases de meta-prueba. Para la creación del portafolio en Auto-Pytorch se usaron 100 datasets de OpenML.
+
+Auto-sklearn 2.0 \cite{Feurer2020AutoSklearn2T} es una extensión de Auto-sklearn que presenta una técnica de meta-learning más simple y perfecciona su manera de manejar algoritmos iterativos, mejorándolo con una estrategia de MAB para la asignación de presupuesto. Debido a varios problemas encontrados en el uso de meta-características en el algoritmo de meta-learning de Auto-sklearn, proponen un nuevo enfoque libre de meta-características, haciendo uso de un portafolio, un conjunto de configuraciones complementarias que cubren tantos datasets diversos como sea posible y minimiza el riesgo de fallo cuando se enfrenta en una nueva tarea. Para ello hacen una matriz de rendimiento, guardando el rendimiento de un conjunto de algoritmos de ML en varios datasets. Luego para seleccionar algoritmos del portafolio basado en un nuevo dataset utilizan un algoritmo \textit{greedy}. Mientras el enfoque anterior de meta-learning seguido por Auto-sklearn (\textit{k-nearest neighbors}) tiene el objetivo de usar solo configuraciones que actúan bien, un portafolio es construido de tal manera que al menos hay una configuración que funciona bien, la cual además proporciona una forma diferente de diseño inicial para su algoritmo de optimización.
+
+Las evaluaciones previas también pueden ser usadas para aprender mejores \textit{espacios de configuración}. Incluso siendo independientes de la nueva tarea, esto puede radicalmente acelerar la búsqueda para modelos óptimos, ya que solo las regiones más relevantes de los espacios de configuración son explorados. Esto es crítico cuando los recursos computacionales están limitados. 
+
+Uno de los sistemas de AutoML que ha usado técnicas de meta-learning para aprender mejores espacios de configuración es ATM (\textit{Auto-Tuned Models}) \cite{mendoza2016towards}. ATM es un sistema de aprendizaje automático multi-método, multi-parámetro y auto optimizado para la automatización de selección de modelos y el ajuste de hiperparámetros. Su principal contribución fue la presentación de un nuevo método para organizar el espacio de búsqueda jerárquica de los métodos de aprendizaje automático. 
+%Definieron un \textit{conditional parameter tree} y la hiperpartición y demostraron cómo estas abstracciones pueden ser usadas para recorrer espacios de hiperpárametros complejos.
+ Emplean técnicas automáticas de meta-learning que iterativamente seleccionan entre estos espacios jerárquicos y ajustan los hiperparámetros.
+
+Existen varias maneras de dar recomendaciones de una tarea específica, pero generalmente se necesita información sobre qué tan similar es la nueva tarea  $t_{new}$ es a las tareas anteriores $t_j \in T$. Una manera de hacer esto es evaluando un número de configuraciones recomendadas en la nueva tarea. Si luego se observa que las evaluaciones de esta tarea son similares a las observaciones en las tareas anteriores para un dataset específico, entonces basándose en evidencia empírica $t_j$ y $t_{new}$ pueden ser consideradas similares. Este conocimiento puede ser incluido para entrenar un meta-modelo que predice un conjunto de configuraciones recomendadas para $t_{new}$. Además, cada configuración seleccionada puede ser evaluada y luego incluida en la base de meta-conocimiento, repitiendo el ciclo y coleccionando más evidencia empírica para aprender cuáles tareas son similares entre sí.
+
+El uso del rendimiento de varios algoritmos en determinados datasets ha servido para medir la similitud de las tareas en varios sistemas de AutoML. Uno de los ejemplos de esto es OBOE \cite{yang2018oboe}, que forma una matriz de errores con validación cruzada de un gran número de algoritmos de aprendizaje supervisado (algoritmos juntos con sus hiperparámetros) en un gran número de datasets. Cada fila  en la matriz representa un dataset, cada columna representa un algoritmo de ML y cada celda representa el rendimiento de un modelo particular de aprendizaje automático con sus hiperparámetros en un dataset específico. Para encontrar los mejores modelos para un dataset nuevo, OBOE ejecuta un conjunto de algoritmos rápidos, pero informativos en el nuevo dataset y usa sus errores de validación cruzada para inferir el vector de características para el nuevo dataset. 
+%Para encontrar el mejor algoritmo de aprendizaje automático para un nuevo dataset, 
+OBOE ejecuta un conjunto particular de modelos correspondientes a un subconjunto de columnas en la matriz de error, los cuales son estimados para ejecutar eficientemente en el nuevo dataset. El sistema tiene en cuenta 2 problemas importantes: (1) \textbf{Inicializaciones con restricciones de tiempo}: cómo elegir un modelo prometedor inicial bajo restricciones de tiempo y (2) \textbf{Active learning}: cómo mejorar la predicción inicial dando más recursos computacionales. La predicción del tiempo de ejecución de un algoritmo depende solo del número de ejemplos y las características en el dataset. El subproblema de \textit{active learning} tiene como objetivo ganar la mayor cantidad de información para guiar el proceso de selección de modelos.
+
+PMF \cite{fusi2018advances} soluciona la tarea de la selección automática de una secuencia de algoritmos de ML de aprendizaje automático usando ideas de filtrado colaborativo y optimización bayesiana. PMF considera que dos dataset son similares si tienen evaluaciones similares en un pequeño conjunto de flujos de algoritmos y, por lo tanto, es más probable que estos datasets tengan similares evaluaciones en el resto de los flujos. En particular, PMF entrena cada flujo de aprendizaje automático en una muestra de cada dataset y entonces evalúa dicho flujo. Esto resulta en una matriz que resume el rendimiento de cada flujo de aprendizaje automático de cada dataset. El problema de predecir el rendimiento de un flujo particular en un nuevo dataset es relacionado con un problema de factorización de matrices.
 
 %-----------------------------------------------------------------------------------
 	\subsection{Código Fuente}\label{sub:listings}
 %-----------------------------------------------------------------------------------
-		Para producir código fuente, envuélvalo en una figura flotante y
-		etiquételo correctamente. Por ejemplo, en la Fig. \ref{fig:code}
-		se muestra un código bastante conocido\ldots
+	% 	Para producir código fuente, envuélvalo en una figura flotante y
+	% 	etiquételo correctamente. Por ejemplo, en la Fig. \ref{fig:code}
+	% 	se muestra un código bastante conocido\ldots
 
-		% Configuración de Listings
-		\lstset{keywordstyle=\color{blue}, basicstyle=\small}
+	% 	% Configuración de Listings
+	% 	\lstset{keywordstyle=\color{blue}, basicstyle=\small}
 
-		\begin{figure}[htb]%
-			\begin{lstlisting}[language=c]%
+	% 	\begin{figure}[htb]%
+	% 		\begin{lstlisting}[language=c]%
 
-    int main(int argc, char** argv)
-    {
-        // Imprimiendo "Hola Mundo".
-        printf("Hello, World");
-    }
+    % int main(int argc, char** argv)
+    % {
+    %     // Imprimiendo "Hola Mundo".
+    %     printf("Hello, World");
+    % }
 
-			\end{lstlisting}
-		\caption{Código fuente de ejemplo.\label{fig:code}}
-		\end{figure}
+	% 		\end{lstlisting}
+	% 	\caption{Código fuente de ejemplo.\label{fig:code}}
+	% 	\end{figure}
 
 %-----------------------------------------------------------------------------------
 	\subsection{Referencias}
 %-----------------------------------------------------------------------------------
-  	Las referencias deben estar agrupadas en una sección al final del artículo,
-  	y las citas numeradas correctamente, por ejemplo \cite{knuth} o \cite{goedel}.
-  	Incluya toda la información importante de cada referencia, incluídos autor,
-  	título, y notas de la edición. En caso de citar sitios web, además
-  	de la URL, incluya la fecha en que fue consultado, como en \cite{wiki}. Numere 
-  	las referencias según el orden en que se les cita.
+  	% Las referencias deben estar agrupadas en una sección al final del artículo,
+  	% y las citas numeradas correctamente, por ejemplo \cite{knuth} o \cite{goedel}.
+  	% Incluya toda la información importante de cada referencia, incluídos autor,
+  	% título, y notas de la edición. En caso de citar sitios web, además
+  	% de la URL, incluya la fecha en que fue consultado, como en \cite{wiki}. Numere 
+  	% las referencias según el orden en que se les cita.
 
 %===================================================================================
 

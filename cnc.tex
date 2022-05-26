@@ -30,6 +30,7 @@
 \usepackage[pdftex]{hyperref}
 \usepackage{caption}
 \usepackage{subcaption}
+
 %-----------------------------------------------------------------------------------
 % Configuración
 %-----------------------------------------------------------------------------------
@@ -98,7 +99,6 @@ Lic. Daniel Alejandro Valdés Pérez, \emph{Universidad de La Habana}}
 % Resumen en Español
 %-----------------------------------------------------------------------------------
 \begin{abstract}
-
 	El campo de aprendizaje de máquinas automático (AutoML) se ha destacado como una de las principales alternativas para encontrar buenas soluciones para problemas complejos de aprendizaje automático. A pesar del reciente éxito de AutoML, todavía quedan muchos desafíos. El aprendizaje de AutoML es un proceso costoso en tiempo y puede llegar a ser ineficiente computacionalmente. Meta-Learning es descrito como el proceso de aprender de experiencias pasadas aplicando varios algoritmos de aprendizaje en diferentes tipos de datos y, por lo tanto, reduce el tiempo necesario para aprender nuevas tareas. Una de las ventajas de las técnicas de meta-learning es que pueden servir como un apoyo eficiente para el proceso de AutoML, aprendiendo de tareas previas los mejores algoritmos para resolver un determinado tipo de problema. De esta manera, es posible acelerar el proceso de AutoML, obteniendo mejores resultados en el mismo período de tiempo. El objetivo de esta tesis es diseñar una estrategia de meta-learning para dominios genéricos en el aprendizaje automático.
 
 \end{abstract}
@@ -308,30 +308,32 @@ OBOE ejecuta un conjunto particular de modelos correspondientes a un subconjunto
 PMF \cite{fusi2018advances} soluciona la tarea de la selección automática de una secuencia de algoritmos de ML de aprendizaje automático usando ideas de filtrado colaborativo y optimización bayesiana. PMF considera que dos dataset son similares si tienen evaluaciones similares en un pequeño conjunto de flujos de algoritmos y, por lo tanto, es más probable que estos datasets tengan similares evaluaciones en el resto de los flujos. En particular, PMF entrena cada flujo de aprendizaje automático en una muestra de cada dataset y entonces evalúa dicho flujo. Esto resulta en una matriz que resume el rendimiento de cada flujo de aprendizaje automático de cada dataset. El problema de predecir el rendimiento de un flujo particular en un nuevo dataset es relacionado con un problema de factorización de matrices.
 
 %-----------------------------------------------------------------------------------
-	\subsection{Código Fuente}\label{sub:listings}
+	\section{Propuesta}\label{sub:listings}
 %-----------------------------------------------------------------------------------
-	% 	Para producir código fuente, envuélvalo en una figura flotante y
-	% 	etiquételo correctamente. Por ejemplo, en la Fig. \ref{fig:code}
-	% 	se muestra un código bastante conocido\ldots
+En esta sección se presenta un método para la selección de flujos de algoritmos usando técnicas de meta-learning. Un flujo puede ser visto como un caso especial de algoritmo que aplica cada algoritmo de forma secuencial a la salida del anterior en la sucesión. Por lo tanto, como un flujo está compuesto de varios algoritmos, la búsqueda de estos y de sus hiperparámetros resulta más compleja. 
 
-	% 	% Configuración de Listings
-	% 	\lstset{keywordstyle=\color{blue}, basicstyle=\small}
+% La herramienta de meta-learning prupuesta tiene el objetivo de abarcar una gran variedad de problemas mediante la selección de meta-características capaces de representarlas. Además, explorando la interacción entre las características de los datasets y la estructura de los flujos, el método propuesto debe identificar flujos con un buen rendimiento sin realizar un análisis computacionalmente costoso. Como sistema de AutoML complementario se eligió AutoGOAL, que destaca por la gran cantidad de técnicas y herramientas que utiliza, permitiéndole resolver una amplia gama de tareas. AutoGOAL es utilizado para la generación de flujos de algoritmos para crear la base de conocimiento, por lo que, debido a la variedad de herramientas de ML que AutoGOAL utiliza, se presenta gran diversidad en los flujos guardados.
 
-	% 	\begin{figure}[htb]%
-	% 		\begin{lstlisting}[language=c]%
+El enfoque desarrollado se propone como un paso preliminar para otras soluciones más costosas computacionalmente, como por ejemplo, para la inicialización de sistemas de AutoML. En esta investigación AutoGOAL también es utilizado como herramienta complementaria en el proceso de búsqueda de flujos. Por lo tanto, se describe como se realiza la incorporación de conocimiento experto a la estrategia de búsqueda usada por AutoGOAL: Evolución Probabilística Gramatical (\textit{Probabilistic Grammatical Evolution})~\cite{pge2015}, que no había sido utilizada anteriormente con meta-learning.
 
-    % int main(int argc, char** argv)
-    % {
-    %     // Imprimiendo "Hola Mundo".
-    %     printf("Hello, World");
-    % }
+El enfoque de meta-learning propuesto está compuesto por dos fases:
+\begin{itemize}
+	\item La fase offline, que es de aprendizaje, es donde ocurre la adquisición de meta-conocimiento. El objetivo de esta parte es obtener los meta-datos necesarios para la solución del problema de meta-learning propuesto: la obtención de un ranking de flujos de algoritmos de aprendizaje para una determinada tarea. En esta fase se obtiene una caracterización de los datasets y el rendimiento de un conjunto flujos de algoritmos en dichos datasets.
+	\item La fase online, que es de recomendación, es donde se aplica el meta-conocimiento adquirido en la fase anterior. En esta fase, dada una tarea con los meta-datos ganados del análisis de las tareas similares y el entrenamiento de flujos de algoritmos en dichos datasets, el objetivo es producir una lista de los flujos prometedores para resolver la tarea inicial.
+\end{itemize}
 
-	% 		\end{lstlisting}
-	% 	\caption{Código fuente de ejemplo.\label{fig:code}}
-	% 	\end{figure}
+La Figura~\ref{fig:system} muestra el flujo de trabajo de la estrategia de meta-learning implementada. En la fase offline (Figura~\ref{fig:system} derecha) se obtiene una caracterización de los datasets y la estructura y rendimiento de un conjunto flujos de algoritmos en dichos datasets, esta información es utilizada para entrenar el meta-modelo. En la fase online (Figura~\ref{fig:system} izquierda), dado un nuevo dataset, se extraen sus meta-características y de acuerdo a estas y a una métrica de distancia se seleccionan los datasets similares. De estos datasets se obtienen los flujos de algoritmos guardados en la base de conocimiento, y con estos y el meta-modelo se genera un ranking final.
 
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=.3]{Figures/system.png}
+	%\includegraphics[scale=.60]{Figures/mtf scatterplot.pdf}
+	\caption{Flujo de trabajo del enfoque de meta-learning propuesto.}
+	\label{fig:system}
+\end{figure}
 %-----------------------------------------------------------------------------------
-	\subsection{Referencias}
+	\subsection{Adquisición de Meta-Conocimiento}
 %-----------------------------------------------------------------------------------
   	% Las referencias deben estar agrupadas en una sección al final del artículo,
   	% y las citas numeradas correctamente, por ejemplo \cite{knuth} o \cite{goedel}.
@@ -340,9 +342,191 @@ PMF \cite{fusi2018advances} soluciona la tarea de la selección automática de u
   	% de la URL, incluya la fecha en que fue consultado, como en \cite{wiki}. Numere 
   	% las referencias según el orden en que se les cita.
 
+	La adquisición de meta-conocimiento se realiza mediante la extracción de caracterizaciones de un conjunto de datasets, es decir, meta-características, y de información referente a un conjunto de algoritmos que deben ser probados en estos datasets. Entre los datos de los algoritmos extraídos se guarda información respecto a los hiperparámetros utilizados y al rendimiento alcanzado en cada una de las tareas para cada uno de los conjuntos de algoritmos usados.
+
+	Las meta-características utilizadas para describir los datasets fueron
+	:
+	\begin{itemize}
+		\item \underline{\textsc{Simples}}: \begin{itemize}
+			\item Es supervisado
+			\item Tamaño de la muestra
+			\item Número de clases
+			\item Dimensionalidad de la entrada
+			\item Dimensionalidad de la salida
+			\item Dimensionalidad del dataset
+			\item Cantidad de características categóricas
+			\item Características categóricas
+			\item Cantidad de características numéricas
+			\item Características numéricas
+			\item Cantidad de valores faltantes
+		\end{itemize}
+		\item \underline{\textsc{Estadísticos}}: \begin{itemize}
+			\item Desviación estándar
+			\item Coeficiente de variación
+			\item Covarianza media
+			\item Coeficiente de correlación lineal
+			\item \textit{Skewness} (Oblicuidad) 
+			\item Curtosis
+			\item PCA (\textit{Principal Component Analysis}, Análisis de los Componentes Principales)
+		\end{itemize}
+		\item \underline{\textsc{Teóricos de la Información}}: \begin{itemize}
+			\item Entropía normalizada de una clase
+			\item Entropía normalizada de un atributo
+			\item Entropía conjunta
+			\item Información mutua de clase y atributo
+			\item Número equivalente de atributos
+			\item Relación de la señal de ruido
+		\end{itemize}
+		\item \textsc{\underline{Específicos de AutoGOAL}}: \begin{itemize}
+			\item Tipo semántico de la entrada y de la salida
+		\end{itemize}
+	\end{itemize}
+
+	Además de las meta-características, se extrajo información relacionada con las soluciones de las tareas, que fueron utilizadas como características para el meta-modelo. En la fase de adquisición de conocimiento, la solución de las tareas deben ser generadas. El enfoque de meta-learning implementado no intenta simplemente determinar un buen algoritmo con sus hiperparámetros como solución, sino un flujo de algoritmos, lo que complica la generación de estos. 
+	
+	Para la generación de los flujos de algoritmos se utilizó AutoGOAL. En cada uno de los datasets se ejecutó AutoGOAL y se guardaron las arquitecturas generadas junto con su rendimiento. El formato en el que se guardaron fue dependiente de la estructura en la que AutoGOAL procesa los flujos. Los algoritmos se ponen primero secuencialmente, luego existe una palabra clave \texttt{End} para representar el final de estos. Después, se ponen los hiperparámetros de los algoritmos de la forma  `\texttt{\{algoritmo\}\_\{hiperparámetro\}}' para identificarlos. En el algoritmo~\ref{alg:flows} se muestra un ejemplo del formato JSON en el que son guardados los flujos. Además de las estructuras de los flujos de algoritmos, se guardó el modelo probabilístico que siguió AutoGOAL para la formación de dicho flujo.
+
+%===================================================================================
+	\subsection{Aplicación de Meta-Conocimiento}
 %===================================================================================
 
+En un sistema de meta-learning la aplicación de meta-conocimiento puede ser utilizado para ayudar a seleccionar un conjunto de algoritmos de aprendizaje de máquinas que obtengan un buen rendimiento en una tarea determinada. Una vez obtenidos los meta-datos necesarios, el objetivo de esta fase es la obtención de una lista de flujos de algoritmos prometedores para un dataset determinado. Esto se realiza analizando los datasets similares a un nuevo dataset y recomendando los flujos que tuvieron un buen rendimiento en estos conjuntos de datos seleccionados. 
 
+La selección de algoritmos fue realizada mediante un enfoque de ranking, en el que para un nuevo dataset se seleccionan los \texttt{k} mejores flujos de algoritmos. Para esto se implementaron varias estrategias, que son descritas a continuación.
+
+	\subsubsection{Estrategia de Vecinos Cercanos}
+	
+	La primera estrategia, de \textit{Nearest Neighbors} o Vecinos Más Cercanos, consiste en extraer los flujos candidatos para un dataset determinado en dependencia de las características de los \texttt{n} datasets más similares a él. Se extraen los \texttt{m} flujos de algoritmos que hayan tenido mejor rendimiento en cada uno de los \texttt{n} datasets, y estos flujos son combinados para formar un nuevo ranking para el nuevo dataset. Este enfoque puede ser dividido en dos pasos: la búsqueda de los vecinos cercanos y la generación de un ranking.
+
+	En el primer paso, dado un dataset nuevo, se calculan sus meta-características con el objetivo de construir un vector de características. Luego, se selecciona un conjunto de \texttt{n} instancias (vecinos cercanos) en el conjunto de entrenamiento que son similares al nuevo dataset. Esta similitud está basada en una medida de distancia (por ejemplo, la distancia euclidiana), que es aplicada entre los vectores de características de los datasets de entrenamiento y el nuevo dataset. En el sistema, se utilizó la distancia L1 (o de Manhatan) y L2 (o Euclidiana).
+
+	En el segundo paso, se obtienen los rankings de los \texttt{m} flujos de algoritmos con mejor rendimiento para cada uno de los \texttt{n} datasets similares seleccionados. Luego, estos rankings son combinados para formar un ranking de los \texttt{k} mejores flujos de algoritmos para el nuevo dataset. El nuevo ranking es generado en dependencia del rendimiento de los \texttt{m} flujos de algoritmos en sus respectivos dataset. Por ejemplo, si se seleccionan los $2$ datasets más cercanos, $d_1$ y $d_2$ y para cada uno de estos datasets se obtienen $2$ flujos: $p^1_1$ y $p^1_2$ para $d_1$ y $p^2_1$ y $p^2_2$ para $d_2$ con los siguientes resultados: $p^1_1 = 0.98$, $p^1_2 = 0.90$ , $p^2_1 = 0.99$, $p^2_2 = 0.97$, estos resultados son combinados obteniendo el ranking final para el nuevo dataset: $p^2_1$, $p^1_1$, $p^2_2$ y $p^1_2$.
+
+	Una de las desventajas de este enfoque es la necesidad de especificar y determinar los mejores valores para la cantidad de datasets similares seleccionados \texttt{n} y la cantidad de flujos de algoritmos seleccionados \texttt{m}. Además, este enfoque no tiene en cuenta la magnitud de la medida de similitud entre los dos datasets. Por ejemplo, en el caso de que un dataset determinado sea muy similar a uno de los dataset de entrenamiento puede ser mejor seleccionar los \texttt{m} mejores flujos de ese dataset nada más. Por otro lado, si el dataset es bastante diferente a todos los datasets del conjunto de entrenamiento debe ser mejor seleccionar el mejor flujo en los \texttt{n} datasets más similares. Por estas razones fue implementada otra estrategia de generación de rankings. 
+
+	El otro método para la generación de rankings consiste en un mecanismo ponderado entre dos factores: la distancia entre el nuevo dataset y los datasets del conjunto de entrenamiento, y el valor del resultado de rendimiento de los flujos de algoritmos en los dataset similares. Aunque con esta solución no es necesario especificar los valores de \texttt{n} y \texttt{m}, existen infinitas maneras de combinar estos dos factores. La estrategia seguida para su combinación fue una de las más directas: la división entre el resultado de rendimiento de un flujo de algoritmos en un dataset similar y el valor de distancia entre los dataset. De esta forma, los datasets que tengan menor distancia entre sí y los flujos que tengan un mejor rendimiento obtendrán un mayor resultado. Los resultados de esta división son los utilizados para generar el ranking de los flujos candidatos para la nueva tarea.
+
+	\subsubsection{Estrategia utilizando un Meta-Modelo}
+
+	La segunda estrategia utiliza un meta-modelo para predecir el rendimiento de un flujo de algoritmos en un determinado dataset sin necesidad de ejecutar dicho flujo. Al igual que en la estrategia anterior dado un nuevo dataset se extraen los flujos más similares a él, y se obtiene un conjunto de flujos candidatos. Estos flujos son presentados al meta-modelo junto con el nuevo dataset para obtener un ranking de los algoritmos candidatos. Esta estrategia también funciona en dos pasos.
+
+	En el primer paso se computan las meta-características del nuevo dataset, y se sigue un método parecido a la estrategia anterior para obtener los dataset similares. La similitud se mide con una métrica de distancia entre los vectores de características de los datasets que se quieren comparar. Para la solución del sistema cualquier función de similitud puede ser utilizada, se implementaron y se probaron las mismas funciones que en la estrategia anterior: distancia L1 y distancia L2.
+
+	Los datasets similares son usados para determinar los flujos de algoritmos que son presentados al meta-modelo. En vez de presentar todos los flujos obtenidos del conjunto de entrenamiento al meta-modelo, por cuestiones de eficiencia, se seleccionan solo los más prometedores, que son los que tienen mayor rendimiento en los datasets similares. Para determinar cuántos datasets y flujos de algoritmos extraer se utiliza la información referente al tamaño del ranking final que se quiere obtener. Si, por ejemplo, se quiere obtener un ranking de 15 flujos, entonces se seleccionan los 15 datasets más similares al dataset en cuestión y de estos datasets se extraen los 15 flujos de mejor rendimiento. 
+
+Los flujos de algoritmos obtenidos necesitan ser pre-procesados para ser presentados al meta-modelo. Con el objetivo de representar los flujos de una forma compacta, se eligió representar la topología de un flujo como una secuencia de números. Cada algoritmo del flujo está representado como un número único que lo identifica. Por lo tanto, se genera una secuencia de números para representar cada flujo, donde el orden de los números determina el orden de aplicación de los algoritmos que componen el flujo.
+
+Se utilizaron solo los algoritmos sin sus hiperparámetros para que el meta-modelo sepa cuáles algoritmos tienen un buen rendimiento, de manera general, en un dataset determinado. Sin embargo, para cada secuencia de algoritmos en un dataset se pueden recuperar los algoritmos con sus hiperparámetros, ya que estos están guardados en la base de conocimiento. En el caso de que exista una secuencia igual de algoritmos en un mismo dataset se puede considerar el flujo con mejor resultado de rendimiento. Al final, cuando el meta-modelo genera un ranking, la secuencia de números es descodificada y los hiperparámetros de los algoritmos que componen el flujo de algoritmos son retornados. Por lo tanto, en el ranking final se recuperan los hiperparámetros de los algoritmos seleccionados.
+
+En la segunda fase de la estrategia, los flujos de algoritmos candidatos pre-procesados son concatenados con el vector de características del nuevo dataset, formando los meta-datos, y son presentados al meta-modelo. Como resultado, el meta-modelo retorna un ranking basado en el rendimiento esperado de cada uno de los flujos en el dataset. Se retorna una lista con los \texttt{k} mejores flujos y, como se mencionó anteriormente, estos flujos son pos-procesados para obtener los hiperparámetros con los que fueron utilizados en su dataset original. En el Algoritmo~\ref{alg:ranker.proc} se resumen todos los pasos seguidos para la generación del ranking final.
+
+Como meta-modelo, se utilizó el modelo XGBRanker de la biblioteca XGBoost~\cite{xgboost} de Python. Este meta-modelo fue elegido porque el problema seleccionado es en esencia un problema de ranking, y trabajo previo ha demostrado que XGBoost es altamente recomendado para producir listas rankeadas~\cite{rankml}. Además, XGBoost ha sido usado con anterioridad en problemas de meta-learning para la selección de algoritmos~\cite{rankml, atomic}.
+
+\subsection{Implementación en AutoGOAL}
+
+La estrategia llevada a cabo hasta ahora puede funcionar como un sistema de recomendación de flujos de algoritmos independiente, o puede servir como un paso preliminar para otras soluciones más complejas computacionalmente. Sin embargo, a pesar de que mediante meta-learning puede sugerir rápidamente algunas inicializaciones de los algoritmos de ML que probablemente tengan buenos resultados, no es posible obtener información detallada sobre qué tan buen rendimiento tendrá en un dataset nuevo. En contraste, los algoritmos de optimización utilizados en herramientas de AutoML son lentos al buscar en grandes espacios de hiperparámetros, pero son capaces de obtener información más detallada sobre el rendimiento de los algoritmos de ML en un nuevo dataset~\cite{fuerer2015efficient}. Es por esto que el enfoque de meta-learning propuesto es complementario al proceso de optimización, usando el ranking de configuraciones elegidas para inicializar un proceso de optimización.
+
+Como herramienta de AutoML complementaria a esta solución se eligió el sistema de AutoGOAL~\cite{autogoal}, que ha sido diseñado por el grupo de investigación de Inteligencia Artificial de la Facultad de Matemáticas y Computación. AutoGOAL se destaca por su capacidad de abordar una gran variedad de problemas, combinando técnicas y algoritmos de diferentes bibliotecas, incluidos clasificadores lineales, herramientas de procesamiento de lenguaje natural y redes neuronales. Esta característica lo hace ideal como herramienta adicional para la solución del problema propuesto.
+
+La estrategia seguida para la inicialización del proceso de optimización de AutoGOAL es la modificación del modelo probabilístico que usa AutoGOAL para generar y evaluar los flujos de algoritmos válidos. Después de obtener la lista de flujos de algoritmos recomendados en la fase de meta-learning, se extraen los modelos probabilísticos asociados a estos flujos. Estos modelos son guardados en la fase inicial de meta-learning, de obtención de meta-conocimiento, cuando se generan los flujos con AutoGOAL. Luego, se crea un modelo inicial $\sigma^*$, que es el resultado de la mezcla de los modelos probabilísticos de los flujos recomendados. En las primeras iteraciones se usa el modelo $\sigma$ con valores neutrales para cada distribución, generando flujos aleatorios, para lograr una mayor exploración y luego este modelo es mezclado con el modelo $\sigma^*$, que contiene las inicializaciones que son resultado de la fase de meta-learning. Al igual que en el proceso de optimización de AutoGOAL tradicional, se utiliza un factor de interpolación $\alpha \in [0, 1]$, ofreciendo un balance entre exploración y explotación. El resto del proceso de optimización de AutoGOAL ocurre normalmente.
+
+%===================================================================================
+% Resultados Experimentales
+%-----------------------------------------------------------------------------------
+\section{Resultados Experimentales}
+
+Para los experimentos realizados se extrajeron datasets de clasificación de OpenML \cite{vanschoren2014openml}. OpenML es una plataforma de código abierto desarrollada con el objetivo de permitir a los investigadores compartir sus datasets, implementaciones y experimentos de una forma tal que ellas puedan ser fácilmente encontradas y reusadas por otros. OpenML tiene alrededor de 19000 datasets disponibles para descargar y ofrece una API Web\footnote{\url{http://www.openml.org}} a través de la cual pueden ser enviados nuevos recursos y resultados. OpenML-Python \cite{feurer2019openmlpy} es una integración al ecosistema popular de Python ML\footnote{\url{https://github.blog/2019-01-24-the-state-of-the-octoverse-machine-learning/}}, que elimina la complejidad del acceso a la API Web proporcionando un fácil acceso en Python a todos los datos de OpenML y automatizando el intercambio de nuevos experimentos. Los datasets seleccionados fueron extraídos utilizando esta API.
+
+Para obtener un conjunto representativo de datasets se consideraron todos los que tenían más de 300  y menos de 500 000 instancias con más de 2 atributos y menos de 300 atributos, terminando en un total de 305 datasets. Estos datasets son muy diversos con respecto a su número de instancias, número de características, y número de clases.
+
+Para la evaluación de la propuesta realizada se separaron los 305 datasets en dos conjuntos: $D_{train}$ y $D_{test}$, donde el primero representa el $75\%$ del total de datasets y el segundo el $25\%$. $D_{train}$ fue utilizado en el entrenamiento de las estrategias seleccionadas y $D_{test}$ en la prueba de las mismas. %El conjunto de datasets de entrenamiento $D_{train}$ fue a su vez dividido en 2, usándose el segundo para la evaluación de los modelos implementados. De $D_{train}$ se usó el $75\%$ para el entrenamiento y el $25\%$ como validación, es decir, para obtener resultados parciales en cuanto al rendimiento del método implementado. 
+En los resultados mostrados en el resto de este capítulo, se usa todo el conjunto de datasets $D_{train}$ para el entrenamiento de los modelos obtenidos con las distintas estrategias implementadas y se exponen los resultados obtenidos en $D_{test}$.
+
+
+Todos los flujos de algoritmos usados durante el entrenamiento y evaluación de la propuesta implementada fueron generadas usando AutoGOAL. Los flujos generados con AutoGOAL consisten en algoritmos presentes en varias bibliotecas de Python, entre las que se encuentran: Sklearn~\cite{scikit-learn}, Pytorch~\cite{paszke2019pytorch}, Keras~\cite{chollet2015keras}, NLTK~\cite{bird2009natural} y Gensim~\cite{khosrovian2008gensim}.
+
+AutoGOAL se ejecutó en cada uno de los 305 datasets seleccionados y se almacenaron todas las arquitecturas generadas junto con los resultados obtenidos. Para cada uno de los datasets, AutoGOAL se configuró para que realizara la búsqueda de flujos durante 1 hora, teniendo un total de 5 minutos para la evaluación de un flujo de algoritmos. De esta forma, se excluyeron flujos muy complejos y se garantizó la evaluación de al menos 12 flujos por dataset. Esta generación de flujos duró un total de 305 horas y se generaron en promedio 640.28 flujos de algoritmos por dataset, y en total se obtuvieron 248 430  flujos. 
+
+\subsection{Comparación de las diferentes estrategias}
+
+Los datasets y los flujos de algoritmos extraídos fueron utilizados con las diferentes estrategias de meta-learning implementadas:
+
+\begin{description}
+	\item[Estrategia Vecinos Cercanos Simple:] El método de vecinos cercanos, tal como está descrita en la Sección~\ref{subsub:nn}, fue probado utilizando la distancia L2 estándar. El ranking final generado para un nuevo dataset es de 15 flujos. En esta versión se utilizó la estrategia simple, en la que se seleccionan \texttt{n} datasets más cercanos y de ellos los \texttt{m} flujos de algoritmos que hayan obtenido un mejor rendimiento, luego el ranking es formado seleccionando a los 15 mejores flujos de algoritmos. Para la evaluación de esta estrategia se utilizó \texttt{m = 15} y \texttt{n = 15}.
+	\item[Estrategia Vecinos Cercanos Ponderado:] El método de vecinos cercanos se vuelve a evaluar, pero utiliza la otra estrategia explicada en la Sección~\ref{subsub:nn}. Esta estrategia consiste en un mecanismo ponderado entre dos factores: la distancia entre el nuevo dataset y los datasets en el conjunto de entrenamiento, y el valor del resultado del rendimiento de los flujos de algoritmos en los datasets similares. Estos factores son divididos, y el valor obtenido es el usado para generar el nuevo ranking. Al igual que en la estrategia anterior, se utiliza la distancia L2 estándar y se genera un ranking final de 15 flujos para una tarea nueva.
+	\item[Estrategia usando XGBRanker:] En esta estrategia, explicada en la sección~\ref{subsub:ranker}, se utilizó como meta-modelo XGBRanker de la biblioteca XGBoost para generar los rankings de una nueva tarea. Se usaron las siguientes configuraciones de hiperparámetros: 	
+	\begin{itemize}
+		\item \texttt{objective = `rank:pairwise'}
+		\item \texttt{n\_estimators = 150}
+		\item \texttt{tree\_method = `hist'}
+		\item \texttt{max\_depth = 10}
+		\item \texttt{learning\_rate = 0.1}
+		\item \texttt{subsample = 0.95}
+	\end{itemize}
+\end{description}
+
+%-----------------------------------------------------------------------------------
+\subsection{Resultados Experimentales}\label{subsec:resultados}
+
+Para la evaluación de las estrategias de meta-learning implementadas es importante conocer los resultados obtenidos al incorporarse a un sistema de AutoML. Cómo el ranking de configuraciones elegidas son usadas para inicializar el proceso de optimización, y qué resultados este proceso puede obtener al usar el conocimiento previo adquirido mediante meta-learning. En esta sección se discuten las experimentaciones realizadas para evaluar estos aspectos.
+
+Para la realización de los experimentos se ejecutó la búsqueda de algoritmos de AutoGOAL con y sin meta-learning, probando los métodos de meta-learning mencionados anteriormente: vecinos cercanos con la estrategia simple, vecinos cercanos utilizando mecanismos ponderados y utilizando un modelo de XGBoost, XGBRanker. Para estudiar su rendimiento bajo una estricta restricción de tiempo, y además, debido a limitaciones de los recursos computacionales utilizados, se limitó la búsqueda para cada ejecución a 30 minutos. Igualmente, el tiempo de ejecución de un solo modelo se limitó a la sexta parte de este tiempo (5 minutos). Las evaluaciones realizadas en esta sección muestran los resultados obtenidos en los datasets de prueba, utilizando los datasets de entrenamiento para entrenar los métodos implementados. % Cada estrategia se ejecutó 3 veces, y los resultados mostrados son el promedio de estas ejecuciones. 
+
+Uno de los aspectos a analizar es la cantidad de flujos de algoritmos inválidos generados durante el proceso de optimización. Los flujos inválidos se encuentran en dos casos: cuando se excede el tiempo de espera predefinido por el investigador, o cuando ocurren errores de tiempo de ejecución impredecibles, como errores de falta de memoria provocados por una combinación inviable de hiperparámetros. Estas circunstancias a menudo son difíciles de predecir de antemano y no se pueden tener en cuenta en las gramáticas de AutoGOAL. Sin embargo, mediante la información adquirida con meta-learning se espera que la cantidad de flujos inválidos disminuya, ya que se utiliza conocimiento adquirido de problemas similares que usan flujos de algoritmos válidos.
+
+En la Figura \ref{fig:failedpipelines}, se muestran los resultados obtenidos respecto a la proporción de flujos inválidos generados usando cada una de las estrategias desarrolladas, incluyendo la versión de AutoGOAL que no utiliza la inicialización de meta-learning. Como se puede observar, con las estrategias de meta-learning de Vecinos Cercanos Simple y XGBRanker se obtiene en promedio menor cantidad de flujos inválidos generados, mientras que en la estrategia de Vecinos Cercanos Ponderado se generan más flujos inválidos por dataset en promedio, por lo que no se puede determinar si la mejora obtenida con meta-learning es estadísticamente significativa. La generación de flujos inválidos es un factor que depende de muchos factores, y se cree que para demostrar la mejora en este aspecto es necesario una mayor experimentación.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=.8]{Figures/failed-pipelines.pdf}
+\caption{Proporción de flujos de algoritmos inválidos generados en cada uno datasets usando las diferentes estrategias.}
+\label{fig:failedpipelines}
+\end{figure}
+
+Otro de los aspectos interesantes para evaluar es el comportamiento de las soluciones obtenidas a través de las distintas iteraciones de AutoGOAL. La Figura~\ref{fig:performance} muestra la media y el intervalo de confianza del 95\% de los resultados de rendimiento obtenidos en las primeras 200 iteraciones en las diferentes estrategias evaluadas. Se puede observar como, a partir de determinado punto (cuando se terminan las iteraciones iniciales que generan resultados aleatorios) las soluciones que utilizan meta-learning alcanzaron mejoras drásticas a partir de la primera configuración que se seleccionó. La mejora fue más pronunciada al principio y, con el tiempo, AutoGOAL sin meta-learning también encontró buenas soluciones, lo que le permitió alcanzar los mismos resultados obtenidos en las versiones que usan meta-learning en algunos datasets (mejorando así su resultado final). 
+
+%En la mayor parte del tiempo estos resultados se mantienen, por lo que las soluciones de meta-learning superan a las soluciones obtenidas mediante AutoGOAL sin el uso de meta-learning.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=.8]{Figures/performance.pdf}
+\caption{Resultados de rendimiento obtenidos en los datasets de prueba en las primeras 200 iteraciones, se muestra la media y el intervalo de confianza del 95\%.}
+\label{fig:performance}
+\end{figure}
+
+En la Figura \ref{fig:bestfn} se muestra el mejor resultado final obtenido en la búsqueda de los flujos de algoritmos en cada uno de los datasets de prueba para las diferentes estrategias. Como se puede apreciar, se obtienen mejores resultados finales en cada uno de las estrategias seguidas con respecto a AutoGOAL sin meta-learning. La diferencia entre la estrategia de vecinos cercanos simple no es tan pronunciada con respecto a  la versión que no usa meta-learning, y esto se cree que se debe a que, a pesar de que mediante esta estrategia se obtienen los valores óptimos más rápidos, AutoGOAL es capaz de alcanzar a esta versión, y encontrar buenas soluciones. El método de vecinos cercanos ponderado y el que usa XGBRanker, un algoritmo de ranking de XGBoost, sí obtiene resultados un poco más significativos, siendo este último el que mejor resultado final obtiene. Por lo tanto, se puede concluir que la agregación de conocimiento de experiencias pasadas mediante el método de meta-learning implementado mejoran la búsqueda final de flujos de algoritmos, obteniendo flujos que tienen mejores resultados en la mayoría de los datasets en el mismo intervalo de tiempo.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=.8]{Figures/best-fn.pdf}
+\caption{Mejor resultado de rendimiento obtenido en la búsqueda de los flujos de algoritmos en cada uno de los datasets de prueba para las diferentes estrategias.}
+\label{fig:bestfn}
+\end{figure}
+
+La Figura~\ref{fig:zscore} muestran los resultados obtenidos estandarizados. Los valores atípicos fueron omitidos para un mejor análisis de la gráfica. Para su normalización, fue usada la Puntuación Z o \textit{Z-Score}, que se utiliza en estadística para comparar datos procedentes de diferentes muestras o poblaciones. Se define como el número de desviaciones típicas que un valor dado toma con respecto a la media de su muestra o población. Sea $x$ el mejor resultado alcanzado en un dataset, $\mu$ y $\sigma$ la media y la desviación estándar de los resultados obtenidos en ese dataset, el valor z de este dataset es: $$z = \dfrac{x - \mu}{\sigma}$$
+
+Los resultados de la Figura~\ref{fig:zscore} muestran una pequeña mejora en la estrategia de Vecinos Cercanos Simple y XGBRanker con respecto a AutoGOAL, mientras que no se puede apreciar mucha diferencia con respecto a los resultados obtenidos utilizando el método de Vecinos Cercanos Ponderados. Sin embargo, es necesario tener en cuenta que esta métrica no fue la usada en el entrenamiento de los modelos de meta-learning. Las estrategias que usan directamente el resultado de rendimiento, y no este valor normalizado, como la de Vecinos Cercanos Ponderado y XGBRanker, pueden estar afectadas en la comparación con esta métrica. A pesar de esto, se puede concluir que los resultados alcanzados por AutoGOAL usando las estrategias de meta-learning superan aquellos obtenidos por AutoGOAL sin meta-learning.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=.8]{Figures/z-score.pdf}
+	\caption{Puntuación Z obtenida en la búsqueda de los flujos de algoritmos en cada uno de los datasets de prueba para las diferentes estrategias.}
+	\label{fig:zscore}
+\end{figure}
+
+Los resultados experimentales fueron implementados utilizando el mismo código en todos los experimentos. Para cada una de las variantes analizadas, los experimentos se ejecutan bajo la misma restricción de tiempo (30 minutos de ejecución total y 5 minutos de ejecución para un solo modelo), por lo tanto, cada una de las estrategias probadas tiene el mismo tiempo para la búsqueda de los flujos de algoritmos. Las experimentaciones realizadas muestran que el conocimiento adicional obtenido al principio mediante la técnica de meta-learning desarrollada cuando es agregado al proceso de optimización, obtiene resultados satisfactorios. En cuanto a la cantidad de flujos inválidos generados y la velocidad con la que se encuentra el mejor resultado de rendimiento, en promedio, los modelos que usan la técnica de meta-learning obtienen mejores resultados con respecto al modelo donde no se aplica.
+
+%-----------------------------------------------------------------------------------
+\section{Discusión}
+
+El método propuesto tiene también algunas limitaciones, las cuales se pueden mejorar en trabajos futuros. Con respecto a la métrica usada para determinar el rendimiento de cada flujo, se usa la métrica por defecto de AutoGOAL, \textit{accuracy}. Sin embargo, en escenarios prácticos, puede ser necesario equilibrar diferentes métricas de rendimiento, incluido también el uso del tiempo y la memoria, y cualidades más subjetivas como la interpretabilidad de los modelos o su capacidad para lidiar con datos sesgados. El enfoque de optimizar una métrica principal sujeta a restricciones de tiempo y memoria usada en AutoGOAL, y, por lo tanto, también en la propuesta diseñada, es insuficiente en un escenario en el que el usuario final tiene que decidir sobre cuestiones prácticas como el despliegue de estos flujos en un sistema de producción. % A modo de ejemplo, TPOT~\cite{olson2019tpot} considera este problema desde el enfoque multi-objetivo mediante la optimización conjunta de la precisión y la complejidad del modelo (en términos de longitud de los flujos). También se han implementado eficientemente medidas multi-criterio en sistemas de meta-learning~\cite{bradzil2003ranking}, donde se crea el ranking de algoritmos basado en \textit{accuracy} y tiempo, mediante la métrica denominada \textit{Adjusted Ratio of Ratios} (ARR)~\cite{soares2000measures}
+
+La experimentación llevada a cabo se realizó solo con datasets de clasificación, por lo que solo se estudiaron los resultados obtenidos en esa tarea. Para demostrar la utilidad de la estrategia de meta-learning implementada en una gran gama de tareas es necesario la experimentación en diferentes tipos de tareas de aprendizaje, por ejemplo, de regresión.  Sin embargo, el modelo propuesto es adaptable a cualquier tipo de problema de aprendizaje automático siempre y cuando se tenga una medida para determinar la eficiencia de un flujo de algoritmos en un dataset. Para la realización de varios tipos de tareas, se propone la creación de un modelo diferente para cada tipo de problemas. Es decir, se crearía un modelo para las tareas de clasificación y otro para regresión. De esta manera, para el análisis de un dataset es necesario conocer el tipo de tarea que se quiere resolver, y usar el modelo adecuado para ella.
+
+Meta-learning es muy dependiente de la calidad de los meta-ejemplos que usa para su entrenamiento~\cite{gomes2012combining}. Usualmente, es difícil obtener buenos resultados, ya que las meta-características son frecuentemente bastante ruidosas, porque el cálculo de estas está propenso a errores. Además, el número de problemas disponibles para la generación de meta-ejemplos generalmente es limitada. En este trabajo, se obtienen buenos resultados debido al uso de meta-características que han sido ampliamente utilizadas en la literatura y a la gran variedad de datasets extraídos. Sin embargo, se considera que un análisis más detallado de la distribución de los datasets para excluir aquellos que tienen características atípicas, y la inclusión de datasets de mayor tamaño puede proporcionar mejores resultados. De igual manera, un estudio de las meta-características para la eliminación de aquellas que proporcionen información poco útil debe proporcionar mejoras en el método propuesto. Además, el uso de la medida normalizada (\textit{Z-Score}) en el entrenamiento de las estrategias implementadas, puede proporcionar mejoras para la selección justa de flujos de algoritmos en distintos datasets.
+
+
+%-----------------------------------------------------------------------------------
 
 %===================================================================================
 % Conclusiones

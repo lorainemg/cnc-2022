@@ -1,0 +1,162 @@
+\begin{thebibliography}{10}
+
+\bibitem{hey2020machinelearning}
+T.~Hey, K.~Butler, S.~Jackson, and J.~Thiyagalingam, ``Machine learning and big
+  scientific data,'' {\em Philosophical Transactions of the Royal Society A:
+  Mathematical, Physical and Engineering Sciences}, vol.~378, p.~20190054, 03
+  2020.
+
+\bibitem{dyrmishi2019decision}
+S.~Dyrmishi, R.~El~Shawi, and S.~Sakr, ``A decision support framework for
+  automl systems: A meta-learning approach,'' pp.~97--106, 11 2019.
+
+\bibitem{radwa2019automated}
+R.~E. Shawi, M.~Maher, and S.~Sakr, ``Automated machine learning:
+  State-of-the-art and open challenges,'' {\em CoRR}, vol.~abs/1906.02287,
+  2019.
+
+\bibitem{crisan2021fits}
+A.~Crisan and B.~Fiore-Gartland, {\em Fits and Starts: Enterprise Use of AutoML
+  and the Role of Humans in the Loop}.
+\newblock New York, NY, USA: Association for Computing Machinery, 2021.
+
+\bibitem{hutter2019autmlbook}
+F.~Hutter, L.~Kotthoff, and J.~Vanschoren, {\em Automated Machine Learning:
+  Methods, Systems, Challenges}.
+\newblock Springer Publishing Company, Incorporated, 1st~ed., 2019.
+
+\bibitem{fuerer2015efficient}
+M.~Feurer, A.~Klein, K.~Eggensperger, J.~Springenberg, M.~Blum, and F.~Hutter,
+  ``Efficient and robust automated machine learning,'' in {\em Advances in
+  Neural Information Processing Systems} (C.~Cortes, N.~Lawrence, D.~Lee,
+  M.~Sugiyama, and R.~Garnett, eds.), vol.~28, Curran Associates, Inc., 2015.
+
+\bibitem{maher2019smartml}
+M.~Maher and S.~Sakr, ``Smartml: A meta learning-based framework for automated
+  selection and hyperparameter tuning for machine learning algorithms,'' in
+  {\em EDBT: 22nd International Conference on Extending Database Technology},
+  2019.
+
+\bibitem{drori2018alphad3m}
+I.~Drori, Y.~Krishnamurthy, R.~Rampin, R.~Louren{\c{c}}o, J.~One, K.~Cho,
+  C.~Silva, and J.~Freire, ``Alphad3m: Machine learning pipeline synthesis,''
+  in {\em AutoML Workshop at ICML}, 2018.
+
+\bibitem{yang2018oboe}
+C.~Yang, Y.~Akimoto, D.~W. Kim, and M.~Udell, ``{OBOE:} collaborative filtering
+  for automl initialization,'' {\em CoRR}, vol.~abs/1808.03233, 2018.
+
+\bibitem{zimmer2021auto}
+L.~Zimmer, M.~Lindauer, and F.~Hutter, ``Auto-pytorch: Multi-fidelity
+  metalearning for robust autodl,'' {\em IEEE Transactions on Pattern Analysis
+  and Machine Intelligence}, 2021.
+
+\bibitem{Feurer2020AutoSklearn2T}
+M.~Feurer, K.~Eggensperger, S.~Falkner, M.~Lindauer, and F.~Hutter,
+  ``Auto-sklearn 2.0: The next generation,'' {\em ArXiv}, vol.~abs/2007.04074,
+  2020.
+
+\bibitem{vanschoren2018metalearning}
+J.~Vanschoren, ``Meta-learning: A survey,'' 2018.
+
+\bibitem{Rivolli2018TowardsRE}
+A.~Rivolli, L.~P.~F. Garcia, C.~Soares, J.~Vanschoren, and A.~Carvalho,
+  ``Towards reproducible empirical research in meta-learning,'' {\em ArXiv},
+  vol.~abs/1808.10406, 2018.
+
+\bibitem{bradzil2009metalearning}
+P.~Brazdil, C.~Giraud-Carrier, C.~Soares, and R.~Vilalta, {\em Metalearning -
+  Applications to Data Mining.}
+\newblock 01 2009.
+
+\bibitem{santos2004selection}
+P.~Santos, T.~Ludermir, and R.~Prud{\^e}ncio, ``Selection of time series
+  forecasting models based on performance information,'' pp.~366--371, 01 2004.
+
+\bibitem{bradzil2003ranking}
+P.~Brazdil, C.~Soares, and J.~Costa, ``Ranking learning algorithms: Using ibl
+  and meta-learning on accuracy and time results,'' {\em Machine Learning},
+  vol.~50, pp.~251--277, 03 2003.
+
+\bibitem{scikit-learn}
+F.~Pedregosa, G.~Varoquaux, A.~Gramfort, V.~Michel, B.~Thirion, O.~Grisel,
+  M.~Blondel, P.~Prettenhofer, R.~Weiss, V.~Dubourg, J.~Vanderplas, A.~Passos,
+  D.~Cournapeau, M.~Brucher, M.~Perrot, and E.~Duchesnay, ``Scikit-learn:
+  Machine learning in {P}ython,'' {\em Journal of Machine Learning Research},
+  vol.~12, pp.~2825--2830, 2011.
+
+\bibitem{atomic}
+N.~Moniz and V.~Cerqueira, ``Automated imbalanced classification via
+  meta-learning,'' {\em Expert Systems with Applications}, vol.~178, p.~115011,
+  04 2021.
+
+\bibitem{xgboost}
+T.~Chen and C.~Guestrin, ``Xgboost: {A} scalable tree boosting system,'' {\em
+  CoRR}, vol.~abs/1603.02754, 2016.
+
+\bibitem{mendoza2016towards}
+H.~Mendoza, A.~Klein, M.~Feurer, J.~T. Springenberg, and F.~Hutter, ``Towards
+  automatically-tuned neural networks,'' in {\em Workshop on Automatic Machine
+  Learning}, pp.~58--65, PMLR, 2016.
+
+\bibitem{fusi2018advances}
+N.~Fusi, R.~Sheth, and M.~Elibol, ``Probabilistic matrix factorization for
+  automated machine learning,'' in {\em Advances in Neural Information
+  Processing Systems} (S.~Bengio, H.~Wallach, H.~Larochelle, K.~Grauman,
+  N.~Cesa-Bianchi, and R.~Garnett, eds.), vol.~31, Curran Associates, Inc.,
+  2018.
+
+\bibitem{pge2015}
+H.-T. Kim and C.~W. Ahn, ``A new grammatical evolution based on probabilistic
+  context-free grammar,'' in {\em Proceedings in Adaptation, Learning and
+  Optimization}, pp.~1--12, Springer International Publishing, 2015.
+
+\bibitem{rankml}
+D.~Laadan, R.~Vainshtein, Y.~Curiel, G.~Katz, and L.~Rokach, ``Rankml: a meta
+  learning-based approach for pre-ranking machine learning pipelines,'' {\em
+  CoRR}, vol.~abs/1911.00108, 2019.
+
+\bibitem{autogoal}
+S.~Estevez-Velarde, Y.~Guti{\'e}rrez, A.~Montoyo, and Y.~Almeida~Cruz,
+  ``Automatic discovery of heterogeneous machine learning pipelines: An
+  application to natural language processing,'' in {\em Proceedings of the 28th
+  International Conference on Computational Linguistics}, (Barcelona, Spain
+  (Online)), pp.~3558--3568, International Committee on Computational
+  Linguistics, Dec. 2020.
+
+\bibitem{vanschoren2014openml}
+J.~Vanschoren, J.~N. van Rijn, B.~Bischl, and L.~Torgo, ``Openml: Networked
+  science in machine learning,'' {\em SIGKDD Explor. Newsl.}, vol.~15,
+  p.~49–60, June 2014.
+
+\bibitem{feurer2019openmlpy}
+M.~Feurer, J.~N. van Rijn, A.~Kadra, P.~Gijsbers, N.~Mallik, S.~Ravi,
+  A.~M{\"{u}}ller, J.~Vanschoren, and F.~Hutter, ``Openml-python: an extensible
+  python {API} for openml,'' {\em CoRR}, vol.~abs/1911.02490, 2019.
+
+\bibitem{paszke2019pytorch}
+A.~Paszke, S.~Gross, F.~Massa, A.~Lerer, J.~Bradbury, G.~Chanan, T.~Killeen,
+  Z.~Lin, N.~Gimelshein, L.~Antiga, A.~Desmaison, A.~K{\"{o}}pf, E.~Yang,
+  Z.~DeVito, M.~Raison, A.~Tejani, S.~Chilamkurthy, B.~Steiner, L.~Fang,
+  J.~Bai, and S.~Chintala, ``Pytorch: An imperative style, high-performance
+  deep learning library,'' {\em CoRR}, vol.~abs/1912.01703, 2019.
+
+\bibitem{chollet2015keras}
+F.~Chollet {\em et~al.}, ``Keras,'' 2015.
+
+\bibitem{bird2009natural}
+S.~Bird, E.~Klein, and E.~Loper, {\em Natural language processing with Python:
+  analyzing text with the natural language toolkit}.
+\newblock O'Reilly Media, Inc., 2009.
+
+\bibitem{khosrovian2008gensim}
+K.~Khosrovian, D.~Pfahl, and V.~Garousi, ``Gensim 2.0: A customizable process
+  simulation model for software process evaluation,'' vol.~5007, pp.~294--306,
+  05 2008.
+
+\bibitem{gomes2012combining}
+T.~Gomes, P.~Miranda, R.~Prud{\^e}ncio, C.~Soares, and A.~Carvalho, ``Combining
+  meta-learning and optimization algorithms for parameter selection,'' in {\em
+  5 th PLANNING TO LEARN WORKSHOP WS28 AT ECAI 2012}, p.~6, Citeseer, 2012.
+
+\end{thebibliography}

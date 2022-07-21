@@ -1,2 +1,4 @@
-# cnc-2022
-Contains the paper presented by me in CNC 2022
+# Resumen Trabajo de CNC 2022
+## Una estrategia de Meta-Learning para Flujo Géericos de AutoML
+
+El campo de aprendizaje de máquinas automático (AutoML) se ha destacado como una de las principales alternativas para encontrar buenas soluciones para problemas complejos de aprendizaje automático. A pesar del reciente éxito de AutoML, todavía quedan muchos desafíos. El aprendizaje de AutoML es un proceso costoso en tiempo y puede llegar a ser ineficiente computacionalmente. Meta-Learning es descrito como el proceso de aprender de experiencias pasadas aplicando varios algoritmos de aprendizaje en diferentes tipos de datos y, por lo tanto, reduce el tiempo necesario para aprender nuevas tareas. Una de las ventajas de las técnicas de meta-learning es que pueden servir como un apoyo eficiente para el proceso de AutoML, aprendiendo de tareas previas los mejores algoritmos para resolver un determinado tipo de problema. De esta manera, es posible acelerar el proceso de AutoML, obteniendo mejores resultados en el mismo período de tiempo. El objetivo de este trabajo es diseñar una estrategia de meta-learning para dominios genéricos en el aprendizaje automático.
